@@ -1,0 +1,110 @@
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: var(--z-sidebar);
+  display: flex;
+  flex-direction: column;
+  width: var(--sidebar-width);
+  max-width: 85vw;
+  background: var(--color-sidebar);
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition:
+    transform 0.2s ease,
+    visibility 0.2s;
+}
+
+.open {
+  transform: none;
+  visibility: visible;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-6) var(--space-4) var(--space-4);
+}
+
+.logo {
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 3px solid var(--color-text);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 55%, #93c5fd 100%);
+}
+
+.appName {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.tagline {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-2) var(--space-2) var(--space-6);
+}
+
+.group + .group {
+  margin-top: var(--space-4);
+}
+
+.groupLabel {
+  margin: var(--space-4) var(--space-3) var(--space-2);
+  font-size: var(--font-size-sm);
+  font-weight: 400;
+  color: var(--color-text-subtle);
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  font: inherit;
+  font-size: var(--font-size-lg);
+  text-align: left;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.item:hover {
+  background: var(--color-surface);
+}
+
+.item[aria-current='page'] {
+  background: var(--color-surface-raised);
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 var(--color-primary);
+}
+
+.badge {
+  min-width: 1.5rem;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-danger);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  line-height: 1.5rem;
+  text-align: center;
+  color: var(--color-on-danger);
+}

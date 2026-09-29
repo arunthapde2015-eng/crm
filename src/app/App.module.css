@@ -1,0 +1,4 @@
+.error {
+  padding: var(--space-4);
+  color: var(--color-danger);
+}

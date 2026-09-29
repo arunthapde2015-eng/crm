@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($env:Path = \"C:\\\\Program Files\\\\nodejs;$env:Path\"; npm install react react-dom react-error-boundary --no-fund --no-audit; npm install -D vite @vitejs/plugin-react eslint@^9 @eslint/js@^9 globals eslint-plugin-react eslint-plugin-react-hooks eslint-plugin-jsx-a11y eslint-config-prettier prettier vitest jsdom @testing-library/react @testing-library/dom @testing-library/user-event @testing-library/jest-dom --no-fund --no-audit)",
+      "PowerShell(Get-ChildItem -Force | Select-Object Mode,Name; Get-Content package.json; if \\(Test-Path src\\) { Get-ChildItem src -Recurse -File | Where-Object { $_.FullName -notmatch 'node_modules' } | ForEach-Object { $_.FullName.Replace\\(\\(Get-Location\\).Path + '\\\\',''\\) } })",
+      "PowerShell(npx prettier --write src index.html)",
+      "PowerShell(npm run lint)",
+      "PowerShell(npm run format:check)",
+      "PowerShell(npm test)",
+      "PowerShell(npm run build)",
+      "PowerShell(npx prettier --write src)"
+    ]
+  }
+}

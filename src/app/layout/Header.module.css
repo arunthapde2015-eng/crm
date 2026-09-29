@@ -1,0 +1,107 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--header-height);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-header);
+}
+
+.iconButton {
+  position: relative;
+  display: inline-grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.iconButton:hover {
+  background: var(--color-surface-raised);
+}
+
+.search {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  max-width: 40rem;
+}
+
+.searchIcon {
+  position: absolute;
+  top: 50%;
+  left: var(--space-3);
+  color: var(--color-text-subtle);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  height: 2.75rem;
+  padding: 0 var(--space-3) 0 2.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  font: inherit;
+  color: var(--color-text);
+}
+
+.searchInput::placeholder {
+  color: var(--color-text-subtle);
+}
+
+.end {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-left: auto;
+}
+
+.role {
+  display: none;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-pill);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-on-pill);
+  white-space: nowrap;
+}
+
+.notificationBadge {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  min-width: 1.5rem;
+  padding: 0 var(--space-1);
+  border-radius: var(--radius-pill);
+  background: var(--color-danger);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  line-height: 1.5rem;
+  color: var(--color-on-danger);
+}
+
+.notifications {
+  color: var(--color-warning);
+}
+
+@media (min-width: 64rem) {
+  .header {
+    padding-inline: var(--space-8);
+  }
+
+  .role {
+    display: inline-block;
+  }
+}

@@ -1,0 +1,81 @@
+:root {
+  color-scheme: dark;
+
+  --color-bg: #0f1624;
+  --color-surface: #111a29;
+  --color-surface-raised: #172133;
+  --color-sidebar: #0a101b;
+  --color-header: #131c2b;
+  --color-input: #0f1624;
+  --color-text: #e6e9ef;
+  --color-text-muted: #9aa3b2;
+  --color-text-subtle: #6b7587;
+  --color-border: #243044;
+  --color-border-subtle: #1c2638;
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-on-primary: #ffffff;
+  --color-danger: #dc2626;
+  --color-on-danger: #ffffff;
+  --color-warning: #f59e0b;
+  --color-pill: #e6e9ef;
+  --color-on-pill: #0f1624;
+  --color-focus: #60a5fa;
+  --color-overlay: rgb(0 0 0 / 55%);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  --radius: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-pill: 999px;
+  --font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.75rem;
+  --font-size-2xl: 2rem;
+
+  --sidebar-width: 17.5rem;
+  --header-height: 4.5rem;
+  --z-header: 10;
+  --z-sidebar: 20;
+  --z-popover: 30;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--font-size-md);
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
