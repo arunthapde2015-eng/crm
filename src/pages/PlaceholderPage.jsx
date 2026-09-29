@@ -1,5 +1,5 @@
 import { PageHeader } from '@/components/PageHeader';
 
 export function PlaceholderPage({ title }) {
-  return <PageHeader title={title} description="This section is coming very soon." />;
+  return <PageHeader title={title} description="" />;
 }

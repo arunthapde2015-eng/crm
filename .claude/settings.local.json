@@ -8,7 +8,10 @@
       "PowerShell(npm run format:check)",
       "PowerShell(npm test)",
       "PowerShell(npm run build)",
-      "PowerShell(npx prettier --write src)"
+      "PowerShell(npx prettier --write src)",
+      "Bash(npx prettier *)",
+      "Bash(npm run *)",
+      "Bash(npx vitest *)"
     ]
   }
 }

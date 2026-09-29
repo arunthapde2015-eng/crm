@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import { Icon } from '@/components/Icon';
 import { NAV_IDS } from '@/constants/navigation';
+import { CURRENT_USER } from '@/constants/session';
+import { canAccessNav } from '@/utils/permissions';
 
 import styles from './UserMenu.module.css';
 
@@ -9,7 +11,7 @@ const MENU_ID = 'user-menu';
 const MENU_LINKS = [
   { navId: NAV_IDS.MY_HR, label: 'My HR' },
   { navId: NAV_IDS.SETTINGS, label: 'Settings' },
-];
+].filter((link) => canAccessNav(CURRENT_USER.role, link.navId));
 
 /**
  * Signed-in user's name with a disclosure menu of account shortcuts.

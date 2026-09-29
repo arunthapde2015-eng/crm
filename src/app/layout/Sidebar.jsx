@@ -1,5 +1,5 @@
-import { APP_NAME, APP_TAGLINE } from '@/constants/session';
-import { NAV_GROUPS } from '@/constants/navigation';
+import { APP_NAME, APP_TAGLINE, CURRENT_USER } from '@/constants/session';
+import { getAccessibleNavGroups } from '@/utils/permissions';
 
 import styles from './Sidebar.module.css';
 
@@ -37,6 +37,7 @@ function NavItem({ item, isActive, onNavigate }) {
  */
 export function Sidebar({ id, isOpen, activeNavId, onNavigate }) {
   const sidebarClassNames = [styles.sidebar, isOpen && styles.open].filter(Boolean).join(' ');
+  const navGroups = getAccessibleNavGroups(CURRENT_USER.role);
 
   return (
     <aside id={id} className={sidebarClassNames}>
@@ -49,7 +50,7 @@ export function Sidebar({ id, isOpen, activeNavId, onNavigate }) {
       </div>
 
       <nav aria-label="Main" className={styles.nav}>
-        {NAV_GROUPS.map((group) => (
+        {navGroups.map((group) => (
           <section
             key={group.label}
             className={styles.group}

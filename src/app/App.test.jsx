@@ -25,6 +25,17 @@ describe('App', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'My Tasks' })).toBeInTheDocument();
   });
 
+  it('shows the Super Admin role and opens admin-only modules', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    expect(screen.getByText('Super Admin')).toBeInTheDocument();
+    const nav = screen.getByRole('navigation', { name: 'Main' });
+    await user.click(within(nav).getByRole('button', { name: 'Audit Logs' }));
+
+    expect(screen.getByRole('heading', { level: 1, name: 'Audit Logs' })).toBeInTheDocument();
+  });
+
   it('toggles the navigation from the header button', async () => {
     const user = userEvent.setup();
     render(<App />);

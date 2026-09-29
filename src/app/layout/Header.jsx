@@ -1,4 +1,5 @@
 import { Icon } from '@/components/Icon';
+import { ROLE_LABELS } from '@/constants/roles';
 import { CURRENT_USER } from '@/constants/session';
 
 import { UserMenu } from './UserMenu';
@@ -43,7 +44,7 @@ export function Header({ isNavOpen, navControlsId, onNavToggle, onNavigate }) {
       </div>
 
       <div className={styles.end}>
-        <span className={styles.role}>{role}</span>
+        <span className={styles.role}>{ROLE_LABELS[role]}</span>
         <UserMenu userName={name} onNavigate={onNavigate} />
         <button
           type="button"

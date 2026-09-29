@@ -1,7 +1,9 @@
+import { ROLES } from './roles';
+
 // Stand-in for the signed-in user until authentication is wired up.
 export const CURRENT_USER = {
   name: 'Anita Deshpande',
-  role: 'Super Admin',
+  role: ROLES.SUPER_ADMIN,
   unreadNotificationCount: 20,
 };
 
