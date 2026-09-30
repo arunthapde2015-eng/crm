@@ -1,0 +1,112 @@
+/* The table keeps its columns on small screens and scrolls inside this box instead. */
+.scroller {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-raised);
+}
+
+.table {
+  width: 100%;
+  min-width: 72rem;
+  border-collapse: collapse;
+}
+
+/* :where() keeps specificity low so the single-class cell modifiers below win. */
+.table :where(th, td) {
+  padding: var(--space-4) var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.table tbody tr:last-child > :where(th, td) {
+  border-bottom: 0;
+}
+
+.table thead :where(th) {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.table tbody :where(th) {
+  font-weight: 400;
+}
+
+.selectedRow {
+  background: var(--color-surface);
+}
+
+.checkboxCell {
+  width: 3rem;
+  padding-left: var(--space-5);
+}
+
+.checkboxCell input {
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+}
+
+.leadCell {
+  min-width: 12rem;
+}
+
+.leadName {
+  display: block;
+}
+
+.leadMeta {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-subtle);
+}
+
+.numeric {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.overdue {
+  color: var(--color-danger-text);
+}
+
+.dueToday {
+  color: var(--color-warning);
+}
+
+.unassigned {
+  color: var(--color-warning);
+}
+
+.actionCell {
+  padding-right: var(--space-5);
+  text-align: right;
+}
+
+.linkButton {
+  padding: var(--space-1) var(--space-2);
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  font: inherit;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.linkButton:hover {
+  color: var(--color-accent-text);
+}
+
+.empty {
+  padding: var(--space-8) var(--space-4);
+  text-align: center;
+  color: var(--color-text-muted);
+}

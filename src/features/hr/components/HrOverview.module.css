@@ -1,0 +1,16 @@
+.overview {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.cards {
+  display: grid;
+  gap: var(--space-5);
+}
+
+@media (min-width: 64rem) {
+  .cards {
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
+  }
+}

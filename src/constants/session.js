@@ -4,6 +4,7 @@ import { ROLES } from './roles';
 export const CURRENT_USER = {
   name: 'Anita Deshpande',
   role: ROLES.SUPER_ADMIN,
+  designation: 'Director',
   unreadNotificationCount: 20,
 };
 

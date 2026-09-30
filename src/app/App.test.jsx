@@ -36,6 +36,25 @@ describe('App', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Audit Logs' })).toBeInTheDocument();
   });
 
+  it('shows dashboard figures and jumps to leads from the dashboard', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    const nav = screen.getByRole('navigation', { name: 'Main' });
+    await user.click(within(nav).getByRole('button', { name: 'Dashboard' }));
+
+    expect(
+      screen.getByRole('heading', { level: 1, name: /^Good \w+, Anita$/ }),
+    ).toBeInTheDocument();
+    const keyFigures = screen.getByRole('region', { name: 'Key figures' });
+    expect(within(keyFigures).getByText('₹7,64,631')).toBeInTheDocument();
+    const funnel = screen.getByRole('region', { name: 'Sales funnel' });
+    expect(within(funnel).getByText('467% of previous')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Add lead' }));
+    expect(screen.getByRole('heading', { level: 1, name: 'Leads' })).toBeInTheDocument();
+  });
+
   it('toggles the navigation from the header button', async () => {
     const user = userEvent.setup();
     render(<App />);

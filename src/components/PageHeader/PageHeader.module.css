@@ -5,6 +5,17 @@
   margin-bottom: var(--space-4);
 }
 
+.eyebrow {
+  display: inline-block;
+  margin: 0 0 var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-pill);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--color-on-pill);
+}
+
 .title {
   margin: 0 0 var(--space-2);
   font-size: var(--font-size-2xl);

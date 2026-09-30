@@ -1,0 +1,14 @@
+.unassigned {
+  color: var(--color-warning);
+}
+
+.body {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.workload {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}

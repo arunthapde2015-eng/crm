@@ -1,0 +1,116 @@
+.group {
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-raised);
+}
+
+.groupTitle {
+  margin: 0 0 var(--space-4);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.groupCount {
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+/* The table keeps its columns on small screens and scrolls inside this box instead. */
+.scroller {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.table {
+  width: 100%;
+  min-width: 56rem;
+  border-collapse: collapse;
+}
+
+/* :where() keeps specificity low so the single-class cell modifiers below win. */
+.table :where(th, td) {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.table tbody tr:last-child > :where(th, td) {
+  border-bottom: 0;
+}
+
+.table thead :where(th) {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.table tbody :where(th) {
+  font-weight: 400;
+}
+
+.leadCell {
+  min-width: 14rem;
+}
+
+.primary {
+  display: block;
+}
+
+.secondary {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-subtle);
+}
+
+.overdue {
+  display: block;
+  color: var(--color-danger-text);
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.actionsCell {
+  width: 1%;
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-2);
+  white-space: nowrap;
+}
+
+.actionButton,
+.callLink {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.actionButton {
+  color: var(--color-text);
+}
+
+.actionButton:hover,
+.callLink:hover {
+  background: var(--color-surface-raised);
+}
+
+.callLink {
+  color: var(--color-accent-text);
+}
+
+.formRow > td {
+  padding-top: 0;
+}

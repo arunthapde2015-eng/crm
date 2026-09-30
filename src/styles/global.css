@@ -17,7 +17,11 @@
   --color-on-primary: #ffffff;
   --color-danger: #dc2626;
   --color-on-danger: #ffffff;
+  --color-danger-text: #f87171;
   --color-warning: #f59e0b;
+  --color-accent-text: #60a5fa;
+  --color-success-text: #4ade80;
+  --color-purple-text: #c084fc;
   --color-pill: #e6e9ef;
   --color-on-pill: #0f1624;
   --color-focus: #60a5fa;

@@ -1,0 +1,34 @@
+/* Background is a faint wash of the text colour, so each tone only needs one colour. */
+.badge {
+  display: inline-block;
+  padding: 0.125rem var(--space-3);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, currentcolor 16%, transparent);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.info {
+  color: var(--color-accent-text);
+}
+
+.neutral {
+  color: var(--color-text-muted);
+}
+
+.accent {
+  color: var(--color-purple-text);
+}
+
+.success {
+  color: var(--color-success-text);
+}
+
+.warning {
+  color: var(--color-warning);
+}
+
+.danger {
+  color: var(--color-danger-text);
+}
