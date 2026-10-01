@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { Button } from '@/components/Button';
 import { PageHeader } from '@/components/PageHeader';
 import { SALESPERSONS } from '@/constants/team';
+import { useSelection } from '@/hooks/useSelection';
 import { formatCurrency } from '@/utils/formatCurrency';
 
 import { DEFAULT_LEAD_FILTERS } from '../constants';
 import { useLeads } from '../hooks/useLeads';
-import { useLeadSelection } from '../hooks/useLeadSelection';
 import { createLead } from '../utils/leadChanges';
 import {
   filterLeads,
@@ -27,7 +27,7 @@ export function LeadsPanel() {
   const [isAddFormOpen, setIsAddFormOpen] = useState(false);
 
   const visibleLeads = filterLeads(leads, filters);
-  const selection = useLeadSelection(visibleLeads.map((lead) => lead.id));
+  const selection = useSelection(visibleLeads.map((lead) => lead.id));
   const unassignedCount = getUnassignedLeads(leads).length;
   const workloadSummary = getTeamWorkload(leads, SALESPERSONS)
     .map((member) => `${member.name.split(' ')[0]} ${member.openLeadCount}`)

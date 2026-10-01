@@ -18,7 +18,10 @@
       "Bash(mkdir -p src/components/SelectField)",
       "Bash(mv src/features/leads/components/SelectField.jsx src/components/SelectField/SelectField.jsx)",
       "Bash(mv src/features/leads/components/SelectField.module.css src/components/SelectField/SelectField.module.css)",
-      "Bash(printf \"export { SelectField } from './SelectField';\\\\n\")"
+      "Bash(printf \"export { SelectField } from './SelectField';\\\\n\")",
+      "Bash(mv src/features/leads/components/LeadBadge.module.css src/components/Badge/Badge.module.css)",
+      "Bash(printf \"export { BADGE_TONES, Badge } from './Badge';\\\\n\")",
+      "Bash(mv src/features/leads/hooks/useLeadSelection.js src/hooks/useSelection.js)"
     ]
   }
 }

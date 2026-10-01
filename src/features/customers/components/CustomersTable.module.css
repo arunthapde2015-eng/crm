@@ -1,9 +1,13 @@
 .table {
-  min-width: 72rem;
+  min-width: 84rem;
 }
 
 .selectedRow {
   background: var(--color-surface);
+}
+
+.inactiveRow {
+  color: var(--color-text-muted);
 }
 
 .checkboxCell {
@@ -17,15 +21,15 @@
   cursor: pointer;
 }
 
-.leadCell {
+.customerCell {
   min-width: 12rem;
 }
 
-.leadName {
+.primary {
   display: block;
 }
 
-.leadMeta {
+.secondary {
   display: block;
   margin-top: var(--space-1);
   font-size: var(--font-size-sm);
@@ -37,38 +41,48 @@
   white-space: nowrap;
 }
 
+.owed {
+  font-weight: 700;
+}
+
 .nowrap {
   white-space: nowrap;
 }
 
-.overdue {
-  color: var(--color-danger-text);
+.linkedCell {
+  min-width: 9rem;
+  font-size: var(--font-size-sm);
 }
 
-.dueToday {
-  color: var(--color-warning);
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  white-space: nowrap;
 }
 
-.unassigned {
-  color: var(--color-warning);
-}
-
-.actionCell {
-  padding-right: var(--space-5);
-  text-align: right;
-}
-
-.linkButton {
-  padding: var(--space-1) var(--space-2);
-  border: 0;
+.editButton,
+.textButton {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid transparent;
   border-radius: var(--radius);
   background: none;
   font: inherit;
+  font-size: var(--font-size-sm);
   color: var(--color-text);
   cursor: pointer;
 }
 
-.linkButton:hover {
+.editButton {
+  border-color: var(--color-border);
+  background: var(--color-bg);
+}
+
+.editButton:hover {
+  background: var(--color-surface);
+}
+
+.textButton:hover {
   color: var(--color-accent-text);
 }
 

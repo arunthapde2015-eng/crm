@@ -16,41 +16,17 @@
   color: var(--color-text-muted);
 }
 
-/* The table keeps its columns on small screens and scrolls inside this box instead. */
+/* Sits inside the raised group card, so the table uses the plainer surface. */
 .scroller {
-  overflow-x: auto;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
   background: var(--color-surface);
 }
 
 .table {
-  width: 100%;
   min-width: 56rem;
-  border-collapse: collapse;
 }
 
-/* :where() keeps specificity low so the single-class cell modifiers below win. */
 .table :where(th, td) {
   padding: var(--space-3) var(--space-4);
-  border-bottom: 1px solid var(--color-border);
-  text-align: left;
-  vertical-align: top;
-}
-
-.table tbody tr:last-child > :where(th, td) {
-  border-bottom: 0;
-}
-
-.table thead :where(th) {
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  color: var(--color-text-muted);
-  white-space: nowrap;
-}
-
-.table tbody :where(th) {
-  font-weight: 400;
 }
 
 .leadCell {

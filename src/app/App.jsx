@@ -4,6 +4,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { DEFAULT_NAV_ID, NAV_IDS, NAV_ITEMS } from '@/constants/navigation';
 import { CURRENT_USER } from '@/constants/session';
 import { AccessDeniedPage } from '@/pages/AccessDeniedPage';
+import { CustomersPage } from '@/pages/CustomersPage';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { FollowUpsPage } from '@/pages/FollowUpsPage';
 import { HomePage } from '@/pages/HomePage';
@@ -37,6 +38,7 @@ function renderPage(navId, onNavigate) {
   if (navId === NAV_IDS.LEADS) return <LeadsPage />;
   if (navId === NAV_IDS.PIPELINE) return <PipelinePage />;
   if (navId === NAV_IDS.FOLLOW_UPS) return <FollowUpsPage />;
+  if (navId === NAV_IDS.CUSTOMERS) return <CustomersPage />;
 
   const navItem = NAV_ITEMS.find((item) => item.id === navId);
   return <PlaceholderPage title={navItem?.label ?? 'Not found'} />;
