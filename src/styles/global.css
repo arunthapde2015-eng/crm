@@ -1,30 +1,48 @@
 :root {
   color-scheme: dark;
 
-  --color-bg: #0f1624;
-  --color-surface: #111a29;
-  --color-surface-raised: #172133;
-  --color-sidebar: #0a101b;
-  --color-header: #131c2b;
-  --color-input: #0f1624;
-  --color-text: #e6e9ef;
-  --color-text-muted: #9aa3b2;
-  --color-text-subtle: #6b7587;
-  --color-border: #243044;
-  --color-border-subtle: #1c2638;
-  --color-primary: #3b82f6;
-  --color-primary-hover: #2563eb;
+  /*
+   * Brand scale, sampled from the logo (src/assets/logo.png): the shield runs from
+   * brand-800 (bottom-left) to brand-400 (top-right) and the ring is brand-700.
+   * 600 and 300 are in-between/lighter steps added for buttons and text on dark.
+   */
+  --color-brand-800: #0e528d;
+  --color-brand-700: #12639c;
+  --color-brand-600: #166fa8;
+  --color-brand-500: #1a7fb6;
+  --color-brand-400: #2393c6;
+  --color-brand-300: #5bb8e4;
+  --color-brand-100: #d7ecf8;
+
+  /* Neutrals are tinted toward the brand blue (hue ~207°) so the dark UI feels on-brand. */
+  --color-bg: #0b1622;
+  --color-surface: #0f1d2c;
+  --color-surface-raised: #142637;
+  --color-sidebar: #08111b;
+  --color-header: #0f1d2c;
+  --color-input: #0b1622;
+  --color-text: #e6eef5;
+  --color-text-muted: #9fb2c4;
+  --color-text-subtle: #7a93aa;
+  --color-border: #22394f;
+  --color-border-subtle: #182c3f;
+
+  /* brand-600 keeps white button text above 4.5:1 contrast; brand-400 alone is too light. */
+  --color-primary: var(--color-brand-600);
+  --color-primary-hover: var(--color-brand-700);
   --color-on-primary: #ffffff;
+  /* Active nav item and selected tab: the bright shield blue reads well on dark surfaces. */
+  --color-accent: var(--color-brand-400);
   --color-danger: #dc2626;
   --color-on-danger: #ffffff;
   --color-danger-text: #f87171;
   --color-warning: #f59e0b;
-  --color-accent-text: #60a5fa;
+  --color-accent-text: var(--color-brand-300);
   --color-success-text: #4ade80;
   --color-purple-text: #c084fc;
-  --color-pill: #e6e9ef;
-  --color-on-pill: #0f1624;
-  --color-focus: #60a5fa;
+  --color-pill: var(--color-brand-100);
+  --color-on-pill: var(--color-brand-800);
+  --color-focus: var(--color-brand-300);
   --color-overlay: rgb(0 0 0 / 55%);
 
   --space-1: 0.25rem;

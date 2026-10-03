@@ -46,8 +46,15 @@ describe('App', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: /^Good \w+, Anita$/ }),
     ).toBeInTheDocument();
-    const keyFigures = screen.getByRole('region', { name: 'Key figures' });
-    expect(within(keyFigures).getByText('₹7,64,631')).toBeInTheDocument();
+    const attention = screen.getByRole('region', { name: 'Needs attention' });
+    expect(within(attention).getByText('Overdue follow-ups')).toBeInTheDocument();
+    expect(within(attention).getAllByRole('listitem')).toHaveLength(6);
+    const money = screen.getByRole('region', { name: 'Sales & collections' });
+    expect(within(money).getByText('₹7,64,631')).toBeInTheDocument();
+    // Figures already in the funnel or better suited to Reports stay off the dashboard.
+    expect(screen.queryByText('Total leads')).not.toBeInTheDocument();
+    expect(screen.queryByText('Inactive merchants')).not.toBeInTheDocument();
+    expect(screen.queryByText('Admin Dashboard')).not.toBeInTheDocument();
     const funnel = screen.getByRole('region', { name: 'Sales funnel' });
     expect(within(funnel).getByText('467% of previous')).toBeInTheDocument();
 

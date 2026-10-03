@@ -28,11 +28,8 @@
 
 .logo {
   flex-shrink: 0;
-  width: 2.75rem;
-  height: 2.75rem;
-  border: 3px solid var(--color-text);
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 55%, #93c5fd 100%);
+  width: 3rem;
+  height: 3rem;
 }
 
 .appName {
@@ -94,7 +91,7 @@
 .item[aria-current='page'] {
   background: var(--color-surface-raised);
   font-weight: 600;
-  box-shadow: inset 3px 0 0 var(--color-primary);
+  box-shadow: inset 3px 0 0 var(--color-accent);
 }
 
 .badge {

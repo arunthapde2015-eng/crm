@@ -1,3 +1,4 @@
+import logoUrl from '@/assets/logo.png';
 import { APP_NAME, APP_TAGLINE, CURRENT_USER } from '@/constants/session';
 import { getAccessibleNavGroups } from '@/utils/permissions';
 
@@ -42,7 +43,8 @@ export function Sidebar({ id, isOpen, activeNavId, onNavigate }) {
   return (
     <aside id={id} className={sidebarClassNames}>
       <div className={styles.brand}>
-        <span className={styles.logo} aria-hidden="true" />
+        {/* Decorative: the app name right beside it already names the brand. */}
+        <img src={logoUrl} alt="" className={styles.logo} width="48" height="48" />
         <div>
           <p className={styles.appName}>{APP_NAME}</p>
           <p className={styles.tagline}>{APP_TAGLINE}</p>

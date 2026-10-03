@@ -5,35 +5,31 @@ export const STAT_FORMATS = {
   CURRENCY: 'currency',
 };
 
-// Placeholder figures until the leads, billing and merchant APIs expose real totals.
-export const DASHBOARD_STATS = [
-  { id: 'total-leads', label: 'Total leads', value: 18 },
-  { id: 'new-leads', label: 'New leads', value: 3 },
-  {
-    id: 'follow-ups-due',
-    label: 'Follow-ups due today',
-    value: 2,
-    tone: STAT_TONES.WARNING,
-  },
+// Placeholder figures until the leads, billing and AMC APIs expose real totals.
+// Only figures someone should act on today; historical counts live in Reports and the
+// funnel below, so they are not repeated here.
+export const ATTENTION_STATS = [
   {
     id: 'overdue-follow-ups',
     label: 'Overdue follow-ups',
     value: 2,
     tone: STAT_TONES.DANGER,
   },
-  { id: 'qualified-leads', label: 'Qualified leads', value: 5 },
-  { id: 'quotations-sent', label: 'Quotations sent', value: 2 },
-  { id: 'quotations-accepted', label: 'Quotations accepted', value: 2 },
-  { id: 'quotations-rejected', label: 'Quotations rejected', value: 0 },
-  { id: 'proforma-invoices', label: 'Proforma invoices', value: 3 },
-  { id: 'sales-invoices', label: 'Sales invoices', value: 14 },
-  { id: 'total-sales', label: 'Total sales', value: 764631, format: STAT_FORMATS.CURRENCY },
   {
-    id: 'total-collection',
-    label: 'Total collection',
-    value: 574610,
-    format: STAT_FORMATS.CURRENCY,
+    id: 'follow-ups-due',
+    label: 'Follow-ups due today',
+    value: 2,
+    tone: STAT_TONES.WARNING,
   },
+  { id: 'new-leads', label: 'New leads', value: 3 },
+  { id: 'quotations-sent', label: 'Quotations sent', value: 2 },
+  { id: 'amc-expired', label: 'AMC expired', value: 1, tone: STAT_TONES.DANGER },
+  { id: 'amc-expiring', label: 'AMC expiring soon', value: 1, tone: STAT_TONES.WARNING },
+];
+
+export const MONEY_STATS = [
+  { id: 'total-sales', label: 'Total sales', value: 764631, format: STAT_FORMATS.CURRENCY },
+  { id: 'total-collection', label: 'Collected', value: 574610, format: STAT_FORMATS.CURRENCY },
   {
     id: 'outstanding',
     label: 'Outstanding',
@@ -41,11 +37,6 @@ export const DASHBOARD_STATS = [
     format: STAT_FORMATS.CURRENCY,
     tone: STAT_TONES.WARNING,
   },
-  { id: 'total-merchants', label: 'Total merchants', value: 7 },
-  { id: 'active-merchants', label: 'Active merchants', value: 5 },
-  { id: 'inactive-merchants', label: 'Inactive merchants', value: 0 },
-  { id: 'amc-expiring', label: 'AMC expiring soon', value: 1, tone: STAT_TONES.WARNING },
-  { id: 'amc-expired', label: 'AMC expired', value: 1, tone: STAT_TONES.DANGER },
 ];
 
 // Ordered: each stage's conversion is measured against the one before it.

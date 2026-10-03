@@ -1,16 +1,18 @@
 import { Button } from '@/components/Button';
 import { PageHeader } from '@/components/PageHeader';
 import { NAV_IDS } from '@/constants/navigation';
-import { ROLE_LABELS } from '@/constants/roles';
 import { CURRENT_USER } from '@/constants/session';
 import {
-  DASHBOARD_STATS,
+  ATTENTION_STATS,
   DashboardStats,
+  MONEY_STATS,
   SALES_FUNNEL_STAGES,
   SalesFunnel,
   formatLongDate,
   getGreeting,
 } from '@/features/dashboard';
+
+import styles from './DashboardPage.module.css';
 
 /**
  * @param {object} props
@@ -19,14 +21,12 @@ import {
 export function DashboardPage({ onNavigate }) {
   const now = new Date();
   const firstName = CURRENT_USER.name.split(' ')[0];
-  const roleLabel = ROLE_LABELS[CURRENT_USER.role];
 
   return (
     <>
       <PageHeader
-        eyebrow="Admin Dashboard"
         title={`${getGreeting(now)}, ${firstName}`}
-        description={`${formatLongDate(now)}. ${roleLabel} view.`}
+        description={formatLongDate(now)}
         actions={
           <>
             <Button onClick={() => onNavigate(NAV_IDS.LEADS)}>Add lead</Button>
@@ -36,8 +36,11 @@ export function DashboardPage({ onNavigate }) {
           </>
         }
       />
-      <DashboardStats stats={DASHBOARD_STATS} />
-      <SalesFunnel stages={SALES_FUNNEL_STAGES} />
+      <div className={styles.sections}>
+        <DashboardStats title="Needs attention" stats={ATTENTION_STATS} />
+        <DashboardStats title="Sales & collections" stats={MONEY_STATS} />
+        <SalesFunnel stages={SALES_FUNNEL_STAGES} />
+      </div>
     </>
   );
 }
