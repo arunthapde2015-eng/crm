@@ -37,7 +37,9 @@ function NavItem({ item, isActive, onNavigate }) {
  * @param {(navId: string) => void} props.onNavigate
  */
 export function Sidebar({ id, isOpen, activeNavId, onNavigate }) {
-  const sidebarClassNames = [styles.sidebar, isOpen && styles.open].filter(Boolean).join(' ');
+  const sidebarClassNames = [styles.sidebar, isOpen && styles.open, 'print-hidden']
+    .filter(Boolean)
+    .join(' ');
   const navGroups = getAccessibleNavGroups(CURRENT_USER.role);
 
   return (

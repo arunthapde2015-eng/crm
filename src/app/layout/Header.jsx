@@ -18,7 +18,7 @@ export function Header({ isNavOpen, navControlsId, onNavToggle, onNavigate }) {
   const { name, role, unreadNotificationCount } = CURRENT_USER;
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} print-hidden`}>
       <button
         type="button"
         className={styles.iconButton}

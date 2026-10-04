@@ -1,43 +1,97 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import { NAV_IDS } from '@/constants/navigation';
 
 import { TasksPanel } from './TasksPanel';
 
+const TODAY = new Date(2026, 9, 1);
+
+function renderPanel(props = {}) {
+  const onNavigate = vi.fn();
+  render(<TasksPanel onNavigate={onNavigate} today={TODAY} {...props} />);
+  return { onNavigate };
+}
+
+function getTaskRow(title) {
+  return screen.getByRole('rowheader', { name: title }).closest('tr');
+}
+
 describe('TasksPanel', () => {
-  it('shows an empty state when there are no tasks', () => {
-    render(<TasksPanel initialTasks={[]} />);
+  it('lists open tasks and flags overdue ones', () => {
+    renderPanel();
 
-    expect(screen.getByText(/no tasks yet/i)).toBeInTheDocument();
+    expect(screen.getByText('4 open.')).toBeInTheDocument();
+    expect(getTaskRow('Follow up on AMC renewal payment')).toHaveTextContent(
+      '26-09-2026 (overdue)',
+    );
+    expect(getTaskRow('Reconcile September bank statement')).not.toHaveTextContent('overdue');
+    expect(getTaskRow('Reconcile September bank statement')).toHaveTextContent('Meera Iyer');
   });
 
-  it('adds a task and clears the input', async () => {
+  it('opens the linked record', async () => {
     const user = userEvent.setup();
-    render(<TasksPanel initialTasks={[]} />);
+    const { onNavigate } = renderPanel();
 
-    const input = screen.getByLabelText('New task');
-    await user.type(input, 'Write tests');
-    await user.click(screen.getByRole('button', { name: 'Add' }));
+    await user.click(screen.getByRole('button', { name: 'Konkan Fresh Mart, Margao' }));
 
-    expect(screen.getByRole('checkbox', { name: 'Write tests' })).not.toBeChecked();
-    expect(input).toHaveValue('');
-    expect(screen.getByText('1 remaining')).toBeInTheDocument();
+    expect(onNavigate).toHaveBeenCalledWith(NAV_IDS.CUSTOMERS);
   });
 
-  it('disables Add when the input is blank', () => {
-    render(<TasksPanel initialTasks={[]} />);
-
-    expect(screen.getByRole('button', { name: 'Add' })).toBeDisabled();
-  });
-
-  it('toggles and removes tasks', async () => {
+  it('marks a task done from its status menu', async () => {
     const user = userEvent.setup();
-    render(<TasksPanel initialTasks={[{ id: '1', title: 'Ship it', isDone: false }]} />);
+    renderPanel();
 
-    await user.click(screen.getByRole('checkbox', { name: 'Ship it' }));
-    expect(screen.getByRole('checkbox', { name: 'Ship it' })).toBeChecked();
-    expect(screen.getByText('0 remaining')).toBeInTheDocument();
+    await user.selectOptions(
+      screen.getByLabelText('Status of Send revised 3-campus pricing'),
+      'Done',
+    );
 
-    await user.click(screen.getByRole('button', { name: 'Remove Ship it' }));
-    expect(screen.queryByRole('checkbox', { name: 'Ship it' })).not.toBeInTheDocument();
+    expect(screen.getByText('3 open.')).toBeInTheDocument();
+    expect(getTaskRow('Send revised 3-campus pricing')).not.toHaveTextContent('overdue');
+  });
+
+  it('filters by text and by status', async () => {
+    const user = userEvent.setup();
+    renderPanel();
+
+    await user.selectOptions(screen.getByLabelText('Status'), 'In Progress');
+    expect(screen.getAllByRole('rowheader')).toHaveLength(1);
+
+    await user.selectOptions(screen.getByLabelText('Status'), 'All statuses');
+    await user.type(screen.getByLabelText('Filter tasks'), 'no such task');
+    expect(screen.getByText('No tasks match these filters.')).toBeInTheDocument();
+  });
+
+  it('adds a task', async () => {
+    const user = userEvent.setup();
+    renderPanel();
+
+    await user.click(screen.getByRole('button', { name: 'Add task' }));
+    const form = screen.getByRole('form', { name: 'New task' });
+    expect(within(form).getByLabelText('Task')).toHaveFocus();
+
+    await user.type(within(form).getByLabelText('Task'), 'Call Nirmal about renewal');
+    await user.selectOptions(within(form).getByLabelText('Assigned to'), 'Vikram Joshi');
+    await user.type(within(form).getByLabelText('Due'), '2026-10-05');
+    await user.click(within(form).getByRole('button', { name: 'Add task' }));
+
+    expect(getTaskRow('Call Nirmal about renewal')).toHaveTextContent('Vikram Joshi');
+    expect(screen.getByText('5 open.')).toBeInTheDocument();
+  });
+
+  it('edits a task', async () => {
+    const user = userEvent.setup();
+    renderPanel();
+
+    await user.click(
+      screen.getByRole('button', { name: 'Edit Reconcile September bank statement' }),
+    );
+    const form = screen.getByRole('form', { name: 'Edit task' });
+    await user.selectOptions(within(form).getByLabelText('Priority'), 'High');
+    await user.click(within(form).getByRole('button', { name: 'Save changes' }));
+
+    expect(getTaskRow('Reconcile September bank statement')).toHaveTextContent('High');
+    expect(screen.queryByRole('form')).not.toBeInTheDocument();
   });
 });

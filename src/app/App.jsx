@@ -7,12 +7,13 @@ import { AccessDeniedPage } from '@/pages/AccessDeniedPage';
 import { CustomersPage } from '@/pages/CustomersPage';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { FollowUpsPage } from '@/pages/FollowUpsPage';
-import { HomePage } from '@/pages/HomePage';
 import { LeadsPage } from '@/pages/LeadsPage';
 import { MyHrPage } from '@/pages/MyHrPage';
 import { PipelinePage } from '@/pages/PipelinePage';
 import { PlaceholderPage } from '@/pages/PlaceholderPage';
+import { ReportsPage } from '@/pages/ReportsPage';
 import { SettingsPage } from '@/pages/SettingsPage';
+import { TasksPage } from '@/pages/TasksPage';
 import { canAccessNav } from '@/utils/permissions';
 
 import { AppLayout } from './layout/AppLayout';
@@ -33,12 +34,13 @@ function renderPage(navId, onNavigate) {
   if (!canAccessNav(CURRENT_USER.role, navId)) return <AccessDeniedPage />;
   if (navId === NAV_IDS.DASHBOARD) return <DashboardPage onNavigate={onNavigate} />;
   if (navId === NAV_IDS.SETTINGS) return <SettingsPage />;
-  if (navId === NAV_IDS.TASKS) return <HomePage />;
+  if (navId === NAV_IDS.TASKS) return <TasksPage onNavigate={onNavigate} />;
   if (navId === NAV_IDS.MY_HR) return <MyHrPage />;
   if (navId === NAV_IDS.LEADS) return <LeadsPage />;
   if (navId === NAV_IDS.PIPELINE) return <PipelinePage />;
   if (navId === NAV_IDS.FOLLOW_UPS) return <FollowUpsPage />;
   if (navId === NAV_IDS.CUSTOMERS) return <CustomersPage />;
+  if (navId === NAV_IDS.REPORTS) return <ReportsPage />;
 
   const navItem = NAV_ITEMS.find((item) => item.id === navId);
   return <PlaceholderPage title={navItem?.label ?? 'Not found'} />;

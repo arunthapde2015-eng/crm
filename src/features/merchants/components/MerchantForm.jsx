@@ -6,14 +6,14 @@ import { TextField } from '@/components/TextField';
 import { SALESPERSONS } from '@/constants/team';
 
 import {
-  CUSTOMER_TYPE_LABELS,
+  MERCHANT_TYPE_LABELS,
   GSTIN_PATTERN,
   INDIAN_STATES,
   MOBILE_NUMBER_PATTERN,
 } from '../constants';
-import styles from './CustomerForm.module.css';
+import styles from './MerchantForm.module.css';
 
-const TYPE_OPTIONS = Object.entries(CUSTOMER_TYPE_LABELS).map(([value, label]) => ({
+const TYPE_OPTIONS = Object.entries(MERCHANT_TYPE_LABELS).map(([value, label]) => ({
   value,
   label,
 }));
@@ -24,7 +24,7 @@ const OWNER_OPTIONS = [
 ];
 
 /**
- * Add, edit or copy a customer. Remount (via `key`) to load different initial values.
+ * Add, edit or copy a merchant. Remount (via `key`) to load different initial values.
  *
  * @param {object} props
  * @param {string} props.title - Form heading, also its accessible name.
@@ -33,7 +33,7 @@ const OWNER_OPTIONS = [
  * @param {(values: object) => void} props.onSubmit
  * @param {() => void} props.onCancel
  */
-export function CustomerForm({ title, submitLabel, initialValues, onSubmit, onCancel }) {
+export function MerchantForm({ title, submitLabel, initialValues, onSubmit, onCancel }) {
   const [values, setValues] = useState(initialValues);
   const headingId = useId();
   const nameInputRef = useRef(null);
@@ -46,7 +46,7 @@ export function CustomerForm({ title, submitLabel, initialValues, onSubmit, onCa
 
   function getFieldProps(name) {
     return {
-      id: `customer-form-${name}`,
+      id: `merchant-form-${name}`,
       name,
       value: values[name],
       onChange: (event) => setValues((previous) => ({ ...previous, [name]: event.target.value })),
@@ -64,7 +64,7 @@ export function CustomerForm({ title, submitLabel, initialValues, onSubmit, onCa
         {title}
       </h2>
       <div className={styles.grid}>
-        <TextField ref={nameInputRef} label="Customer name" required {...getFieldProps('name')} />
+        <TextField ref={nameInputRef} label="Merchant name" required {...getFieldProps('name')} />
         <TextField label="Contact person" {...getFieldProps('contactName')} />
         <TextField
           label="Mobile (10 digits)"

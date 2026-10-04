@@ -29,6 +29,13 @@
   cursor: pointer;
 }
 
+/* The sidebar is hidden on paper, so don't leave its gap. */
+@media print {
+  .contentShifted {
+    margin-left: 0;
+  }
+}
+
 @media (min-width: 48rem) {
   .main {
     padding: var(--space-8) var(--space-8);

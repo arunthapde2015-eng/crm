@@ -1,0 +1,20 @@
+.table {
+  min-width: 40rem;
+}
+
+.numeric {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.totals :where(th, td) {
+  border-top: 1px solid var(--color-border);
+  border-bottom: 0;
+  font-weight: 700;
+}
+
+.empty {
+  padding: var(--space-8) var(--space-4);
+  text-align: center;
+  color: var(--color-text-muted);
+}

@@ -1,8 +1,8 @@
 import { SelectField } from '@/components/SelectField';
 import { SALESPERSONS } from '@/constants/team';
 
-import { ALL_FILTER_VALUE, CUSTOMER_STATUS_LABELS, CUSTOMER_TYPE_LABELS } from '../constants';
-import styles from './CustomerFilters.module.css';
+import { ALL_FILTER_VALUE, MERCHANT_STATUS_LABELS, MERCHANT_TYPE_LABELS } from '../constants';
+import styles from './MerchantFilters.module.css';
 
 function toOptions(labels) {
   return Object.entries(labels).map(([value, label]) => ({ value, label }));
@@ -10,11 +10,11 @@ function toOptions(labels) {
 
 const STATUS_OPTIONS = [
   { value: ALL_FILTER_VALUE, label: 'All statuses' },
-  ...toOptions(CUSTOMER_STATUS_LABELS),
+  ...toOptions(MERCHANT_STATUS_LABELS),
 ];
 const TYPE_OPTIONS = [
   { value: ALL_FILTER_VALUE, label: 'All types' },
-  ...toOptions(CUSTOMER_TYPE_LABELS),
+  ...toOptions(MERCHANT_TYPE_LABELS),
 ];
 const OWNER_OPTIONS = [
   { value: ALL_FILTER_VALUE, label: 'All executives' },
@@ -27,7 +27,7 @@ const OWNER_OPTIONS = [
  * @param {string[]} props.states - States to offer in the state filter.
  * @param {(name: string, value: string) => void} props.onFilterChange
  */
-export function CustomerFilters({ filters, states, onFilterChange }) {
+export function MerchantFilters({ filters, states, onFilterChange }) {
   const stateOptions = [
     { value: ALL_FILTER_VALUE, label: 'All states' },
     ...states.map((state) => ({ value: state, label: state })),
@@ -35,7 +35,7 @@ export function CustomerFilters({ filters, states, onFilterChange }) {
 
   function getSelectProps(name) {
     return {
-      id: `customer-filter-${name}`,
+      id: `merchant-filter-${name}`,
       value: filters[name],
       isLabelHidden: true,
       onChange: (event) => onFilterChange(name, event.target.value),
@@ -45,11 +45,11 @@ export function CustomerFilters({ filters, states, onFilterChange }) {
   return (
     <div className={styles.filters}>
       <div className={styles.search}>
-        <label htmlFor="customer-filter-query" className="visually-hidden">
-          Filter customers
+        <label htmlFor="merchant-filter-query" className="visually-hidden">
+          Filter merchants
         </label>
         <input
-          id="customer-filter-query"
+          id="merchant-filter-query"
           type="search"
           className={styles.searchInput}
           placeholder="Filter this list"

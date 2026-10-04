@@ -22,7 +22,7 @@ describe('App', () => {
     const nav = screen.getByRole('navigation', { name: 'Main' });
     await user.click(within(nav).getByRole('button', { name: /^Tasks/ }));
 
-    expect(screen.getByRole('heading', { level: 1, name: 'My Tasks' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: 'Tasks' })).toBeInTheDocument();
   });
 
   it('shows the Super Admin role and opens admin-only modules', async () => {
