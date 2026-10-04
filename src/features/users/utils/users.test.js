@@ -1,25 +1,19 @@
 import { NAV_IDS } from '@/constants/navigation';
+import { ACCESS_LEVELS, INITIAL_ROLES } from '@/constants/roles';
+import { INITIAL_USERS, USER_STATUSES } from '@/constants/users';
+import { getAccessLevel } from '@/utils/permissions';
 
-import {
-  ACCESS_LEVELS,
-  INITIAL_ROLES,
-  INITIAL_USERS,
-  PASSWORD_ALPHABET,
-  TEMPORARY_PASSWORD_LENGTH,
-  USER_STATUSES,
-} from '../constants';
 import {
   countModulesWithAccess,
   createRole,
   createUser,
   findRole,
   formatSignInTime,
-  generateTemporaryPassword,
-  getAccessLevel,
   getDeleteRoleBlocker,
   getEmptyUserValues,
   getModules,
   getUserFormValues,
+  resetUserPassword,
   validateRole,
   validateUser,
 } from './users';
@@ -79,12 +73,15 @@ describe('users', () => {
 
   it('adds users needing a new password', () => {
     expect(
-      createUser({
-        name: ' Kiran More ',
-        email: 'Kiran@Finsolis.in',
-        username: 'kiran',
-        roleId: 'accountant',
-      }),
+      createUser(
+        {
+          name: ' Kiran More ',
+          email: 'Kiran@Finsolis.in',
+          username: 'kiran',
+          roleId: 'accountant',
+        },
+        'Tmp4Pass9x',
+      ),
     ).toMatchObject({
       id: 'kiran',
       email: 'kiran@finsolis.in',
@@ -93,10 +90,14 @@ describe('users', () => {
     });
   });
 
-  it('makes temporary passwords without look-alike characters', () => {
-    const password = generateTemporaryPassword();
-    expect(password).toHaveLength(TEMPORARY_PASSWORD_LENGTH);
-    expect([...password].every((character) => PASSWORD_ALPHABET.includes(character))).toBe(true);
+  it('unlocks an account when its password is reset', () => {
+    const locked = { ...user('rohan'), failedSignIns: 5, isLocked: true };
+    expect(resetUserPassword(locked, 'Tmp4Pass9x')).toMatchObject({
+      password: 'Tmp4Pass9x',
+      mustChangePassword: true,
+      failedSignIns: 0,
+      isLocked: false,
+    });
   });
 });
 

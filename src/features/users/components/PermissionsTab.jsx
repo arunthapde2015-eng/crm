@@ -1,7 +1,8 @@
 import { SelectField } from '@/components/SelectField';
+import { ACCESS_LEVEL_LABELS, ROLES } from '@/constants/roles';
+import { getAccessLevel } from '@/utils/permissions';
 
-import { ACCESS_LEVEL_LABELS, SUPER_ADMIN_ROLE_ID } from '../constants';
-import { findRole, getAccessLevel, getModules, setAccessLevel } from '../utils/users';
+import { findRole, getModules, setAccessLevel } from '../utils/users';
 import styles from './Users.module.css';
 
 const ACCESS_OPTIONS = Object.entries(ACCESS_LEVEL_LABELS).map(([value, label]) => ({
@@ -30,7 +31,7 @@ function groupBySection(modules) {
  */
 export function PermissionsTab({ roles, roleId, onRoleChange, canManage, onSaveRole }) {
   const role = findRole(roles, roleId) ?? roles[0];
-  const isLocked = !canManage || role.id === SUPER_ADMIN_ROLE_ID;
+  const isLocked = !canManage || role.id === ROLES.SUPER_ADMIN;
 
   return (
     <div className={styles.body}>
@@ -43,7 +44,7 @@ export function PermissionsTab({ roles, roleId, onRoleChange, canManage, onSaveR
           onChange={(event) => onRoleChange(event.target.value)}
         />
       </div>
-      {role.id === SUPER_ADMIN_ROLE_ID && (
+      {role.id === ROLES.SUPER_ADMIN && (
         <p className={styles.formNote}>Super Admin always has full access to everything.</p>
       )}
       <div className={styles.permissionSections}>

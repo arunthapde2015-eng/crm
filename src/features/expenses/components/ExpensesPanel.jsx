@@ -4,7 +4,7 @@ import { Button } from '@/components/Button';
 import { PageHeader } from '@/components/PageHeader';
 import { SelectField } from '@/components/SelectField';
 import { ROLES } from '@/constants/roles';
-import { CURRENT_USER } from '@/constants/session';
+import { useAuth } from '@/context/AuthContext';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { toIsoDate } from '@/utils/formatDate';
 
@@ -43,23 +43,24 @@ function formatSummary({ count, total, pendingCount }) {
  * @param {Date} [props.today] - Default expense date; injectable for tests.
  */
 export function ExpensesPanel({ today = new Date() }) {
+  const { currentUser, currentRole } = useAuth();
   const todayIso = toIsoDate(today);
   const { expenses, addExpense, replaceExpense } = useExpenses();
   const [filters, setFilters] = useState({ query: '', status: ALL_FILTER_VALUE });
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [rejectingId, setRejectingId] = useState(null);
-  const canApprove = APPROVER_ROLES.includes(CURRENT_USER.role);
+  const canApprove = APPROVER_ROLES.includes(currentRole.id);
 
   const visibleExpenses = filterExpenses(expenses, filters);
   const rejectingExpense = expenses.find((expense) => expense.id === rejectingId);
 
   function handleSubmit(values) {
-    addExpense(createExpense(values, expenses, CURRENT_USER.name));
+    addExpense(createExpense(values, expenses, currentUser.name));
     setIsFormOpen(false);
   }
 
   function handleReject(reason) {
-    replaceExpense(rejectExpense(rejectingExpense, CURRENT_USER.name, reason));
+    replaceExpense(rejectExpense(rejectingExpense, currentUser.name, reason));
     setRejectingId(null);
   }
 
@@ -117,7 +118,7 @@ export function ExpensesPanel({ today = new Date() }) {
         <ExpensesTable
           expenses={visibleExpenses}
           canApprove={canApprove}
-          onApprove={(expense) => replaceExpense(approveExpense(expense, CURRENT_USER.name))}
+          onApprove={(expense) => replaceExpense(approveExpense(expense, currentUser.name))}
           onReject={(expense) => setRejectingId(expense.id)}
         />
       </div>

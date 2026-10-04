@@ -1,7 +1,7 @@
 import { Button } from '@/components/Button';
 import { PageHeader } from '@/components/PageHeader';
 import { NAV_IDS } from '@/constants/navigation';
-import { CURRENT_USER } from '@/constants/session';
+import { useAuth } from '@/context/AuthContext';
 import {
   ATTENTION_STATS,
   DashboardStats,
@@ -19,8 +19,9 @@ import styles from './DashboardPage.module.css';
  * @param {(navId: string) => void} props.onNavigate
  */
 export function DashboardPage({ onNavigate }) {
+  const { currentUser } = useAuth();
   const now = new Date();
-  const firstName = CURRENT_USER.name.split(' ')[0];
+  const firstName = currentUser.name.split(' ')[0];
 
   return (
     <>

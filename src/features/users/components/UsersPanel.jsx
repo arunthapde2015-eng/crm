@@ -4,17 +4,17 @@ import { Button } from '@/components/Button';
 import { PageHeader } from '@/components/PageHeader';
 import { Tabs } from '@/components/Tabs';
 import { ROLES } from '@/constants/roles';
-import { CURRENT_USER } from '@/constants/session';
+import { SIGN_IN_EVENTS } from '@/constants/users';
+import { useAuth } from '@/context/AuthContext';
+import { generateTemporaryPassword } from '@/utils/auth';
 
-import { SIGN_IN_EVENTS, SUPER_ADMIN_ROLE_ID, TABS, TAB_IDS } from '../constants';
-import { useUserAdmin } from '../hooks/useUserAdmin';
+import { TABS, TAB_IDS } from '../constants';
 import {
   applyUserChanges,
-  createActivity,
   createUser,
-  generateTemporaryPassword,
   getEmptyUserValues,
   getUserFormValues,
+  resetUserPassword,
 } from '../utils/users';
 import { ActivityTab } from './ActivityTab';
 import { PasswordNotice } from './PasswordNotice';
@@ -35,16 +35,16 @@ const DESCRIPTION =
  * @param {Date} [props.now] - Injectable for tests.
  */
 export function UsersPanel({ initialTab = TAB_IDS.USERS, now = new Date() }) {
-  const admin = useUserAdmin();
+  const admin = useAuth();
   const [activeTabId, setActiveTabId] = useState(initialTab);
   // The user form: null when closed, { user: null } to add, { user } to edit.
   const [form, setForm] = useState(null);
   const [passwordNotice, setPasswordNotice] = useState(null);
-  const [permissionsRoleId, setPermissionsRoleId] = useState(SUPER_ADMIN_ROLE_ID);
+  const [permissionsRoleId, setPermissionsRoleId] = useState(ROLES.SUPER_ADMIN);
   const tabIdPrefix = useId();
-  const canManage = CURRENT_USER.role === ROLES.SUPER_ADMIN;
-  const currentUserId = admin.users.find((user) => user.name === CURRENT_USER.name)?.id ?? '';
-  const by = `by ${CURRENT_USER.name}`;
+  const canManage = admin.currentRole.id === ROLES.SUPER_ADMIN;
+  const currentUserId = admin.currentUser.id;
+  const by = `by ${admin.currentUser.name}`;
 
   function openForm(user) {
     setPasswordNotice(null);
@@ -56,20 +56,19 @@ export function UsersPanel({ initialTab = TAB_IDS.USERS, now = new Date() }) {
     if (form.user) {
       admin.saveUser(applyUserChanges(form.user, values));
     } else {
-      const user = createUser(values);
-      admin.saveUser(user, createActivity(now, user.id, SIGN_IN_EVENTS.USER_ADDED, by));
-      setPasswordNotice({ userName: user.name, password: generateTemporaryPassword() });
+      const password = generateTemporaryPassword();
+      const user = createUser(values, password);
+      admin.saveUser(user, SIGN_IN_EVENTS.USER_ADDED, by, now);
+      setPasswordNotice({ userName: user.name, password });
     }
     setForm(null);
   }
 
   function handleResetPassword(user) {
     setForm(null);
-    admin.saveUser(
-      { ...user, mustChangePassword: true },
-      createActivity(now, user.id, SIGN_IN_EVENTS.PASSWORD_RESET, by),
-    );
-    setPasswordNotice({ userName: user.name, password: generateTemporaryPassword() });
+    const password = generateTemporaryPassword();
+    admin.saveUser(resetUserPassword(user, password), SIGN_IN_EVENTS.PASSWORD_RESET, by, now);
+    setPasswordNotice({ userName: user.name, password });
   }
 
   function renderTab() {

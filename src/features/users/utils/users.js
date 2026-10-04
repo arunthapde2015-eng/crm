@@ -1,16 +1,9 @@
 import { NAV_GROUPS } from '@/constants/navigation';
+import { ACCESS_LEVELS, DASHBOARDS, ROLES } from '@/constants/roles';
+import { USERNAME_PATTERN, USER_STATUSES } from '@/constants/users';
 import { EMAIL_PATTERN } from '@/constants/validation';
-import { formatDayMonthYear, parseIsoDate, toIsoDate } from '@/utils/formatDate';
-
-import {
-  ACCESS_LEVELS,
-  DASHBOARDS,
-  PASSWORD_ALPHABET,
-  SUPER_ADMIN_ROLE_ID,
-  TEMPORARY_PASSWORD_LENGTH,
-  USERNAME_PATTERN,
-  USER_STATUSES,
-} from '../constants';
+import { formatDayMonthYear, parseIsoDate } from '@/utils/formatDate';
+import { getAccessLevel } from '@/utils/permissions';
 
 const { ACTIVE, DISABLED } = USER_STATUSES;
 
@@ -46,12 +39,6 @@ export function getModules() {
   );
 }
 
-/** Super Admin always has full access; other roles have what's set, or none. */
-export function getAccessLevel(role, navId) {
-  if (role.id === SUPER_ADMIN_ROLE_ID) return ACCESS_LEVELS.FULL;
-  return role.permissions[navId] ?? ACCESS_LEVELS.NONE;
-}
-
 export function countModulesWithAccess(role) {
   return getModules().filter((module) => getAccessLevel(role, module.id) !== ACCESS_LEVELS.NONE)
     .length;
@@ -78,7 +65,7 @@ export function getUserFormValues(user) {
 }
 
 function isActiveSuperAdmin(user) {
-  return user.roleId === SUPER_ADMIN_ROLE_ID && user.status === ACTIVE;
+  return user.roleId === ROLES.SUPER_ADMIN && user.status === ACTIVE;
 }
 
 /** Changes that would leave nobody able to manage users, or lock you out, are refused. */
@@ -86,7 +73,7 @@ function getLockoutErrors(values, editingUser, users, currentUserId) {
   if (!editingUser) return [];
   const isLosingSuperAdmin =
     isActiveSuperAdmin(editingUser) &&
-    (values.roleId !== SUPER_ADMIN_ROLE_ID || values.status === DISABLED);
+    (values.roleId !== ROLES.SUPER_ADMIN || values.status === DISABLED);
   if (!isLosingSuperAdmin) return [];
   if (editingUser.id === currentUserId) {
     return ["You can't remove your own Super Admin access or disable yourself."];
@@ -127,7 +114,7 @@ export function validateUser(values, users, roles, { editingUser = null, current
 }
 
 /** New users start with a temporary password they must change when they first sign in. */
-export function createUser(values) {
+export function createUser(values, temporaryPassword) {
   const username = values.username.trim();
   return {
     id: username,
@@ -135,9 +122,24 @@ export function createUser(values) {
     name: values.name.trim(),
     email: values.email.trim().toLowerCase(),
     roleId: values.roleId,
+    designation: '',
     status: ACTIVE,
     lastSignIn: null,
+    password: temporaryPassword,
     mustChangePassword: true,
+    failedSignIns: 0,
+    isLocked: false,
+  };
+}
+
+/** A new temporary password also unlocks an account locked by wrong passwords. */
+export function resetUserPassword(user, temporaryPassword) {
+  return {
+    ...user,
+    password: temporaryPassword,
+    mustChangePassword: true,
+    failedSignIns: 0,
+    isLocked: false,
   };
 }
 
@@ -149,20 +151,6 @@ export function applyUserChanges(user, values) {
     roleId: values.roleId,
     status: values.status,
   };
-}
-
-/** A random password from an alphabet without look-alike characters. */
-export function generateTemporaryPassword() {
-  const randomValues = crypto.getRandomValues(new Uint32Array(TEMPORARY_PASSWORD_LENGTH));
-  return Array.from(
-    randomValues,
-    (value) => PASSWORD_ALPHABET[value % PASSWORD_ALPHABET.length],
-  ).join('');
-}
-
-export function createActivity(now, userId, event, detail) {
-  const at = `${toIsoDate(now)}T${now.toTimeString().slice(0, 5)}`;
-  return { id: crypto.randomUUID(), at, userId, event, detail };
 }
 
 // ---- Roles ---------------------------------------------------------------------
@@ -197,7 +185,7 @@ export function createRole(values, roles) {
     dashboard: values.dashboard,
     description: values.description.trim(),
     isSystem: false,
-    permissions: source && source.id !== SUPER_ADMIN_ROLE_ID ? { ...source.permissions } : {},
+    permissions: source && source.id !== ROLES.SUPER_ADMIN ? { ...source.permissions } : {},
   };
 }
 

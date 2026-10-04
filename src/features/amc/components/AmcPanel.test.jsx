@@ -1,5 +1,7 @@
-import { render, screen, within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import { renderWithAuth } from '@/test/renderWithAuth';
 
 import { AmcPanel } from './AmcPanel';
 
@@ -8,7 +10,7 @@ const TODAY = new Date(2026, 9, 3);
 function renderPanel() {
   const user = userEvent.setup();
   const onNavigate = vi.fn();
-  render(<AmcPanel onNavigate={onNavigate} today={TODAY} />);
+  renderWithAuth(<AmcPanel onNavigate={onNavigate} today={TODAY} />);
   return { user, onNavigate };
 }
 

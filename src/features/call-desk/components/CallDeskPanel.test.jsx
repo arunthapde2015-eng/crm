@@ -1,5 +1,7 @@
-import { render, screen, within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import { renderWithAuth } from '@/test/renderWithAuth';
 
 import { CallDeskPanel } from './CallDeskPanel';
 
@@ -8,7 +10,7 @@ const NOW = new Date(2026, 9, 4, 10, 30);
 function renderPanel() {
   const user = userEvent.setup();
   const onNavigate = vi.fn();
-  render(<CallDeskPanel onNavigate={onNavigate} now={NOW} />);
+  renderWithAuth(<CallDeskPanel onNavigate={onNavigate} now={NOW} />);
   return { user, onNavigate };
 }
 

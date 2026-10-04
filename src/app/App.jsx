@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import { ACCOUNTING_NAV_IDS, DEFAULT_NAV_ID, NAV_IDS, NAV_ITEMS } from '@/constants/navigation';
-import { CURRENT_USER } from '@/constants/session';
+import { ACCOUNTING_NAV_IDS, NAV_IDS, NAV_ITEMS } from '@/constants/navigation';
+import { ACCESS_LEVELS } from '@/constants/roles';
+import { useAuth } from '@/context/AuthContext';
+import { ChangePasswordPage, LoginPage } from '@/features/auth';
 import { AccessDeniedPage } from '@/pages/AccessDeniedPage';
 import { AccountingPage } from '@/pages/AccountingPage';
 import { CallDeskPage } from '@/pages/CallDeskPage';
@@ -27,7 +29,7 @@ import { SettingsPage } from '@/pages/SettingsPage';
 import { TasksPage } from '@/pages/TasksPage';
 import { TicketsPage } from '@/pages/TicketsPage';
 import { UsersPage } from '@/pages/UsersPage';
-import { canAccessNav } from '@/utils/permissions';
+import { canAccessNav, getAccessLevel, getHomeNavId } from '@/utils/permissions';
 
 import { AppLayout } from './layout/AppLayout';
 import styles from './App.module.css';
@@ -43,8 +45,8 @@ function ErrorFallback({ resetErrorBoundary }) {
   );
 }
 
-function renderPage(navId, onNavigate) {
-  if (!canAccessNav(CURRENT_USER.role, navId)) return <AccessDeniedPage />;
+function renderPage(navId, role, onNavigate) {
+  if (!canAccessNav(role, navId)) return <AccessDeniedPage />;
   if (navId === NAV_IDS.DASHBOARD) return <DashboardPage onNavigate={onNavigate} />;
   if (navId === NAV_IDS.SETTINGS) return <SettingsPage />;
   if (navId === NAV_IDS.TASKS) return <TasksPage onNavigate={onNavigate} />;
@@ -74,8 +76,10 @@ function renderPage(navId, onNavigate) {
   return <PlaceholderPage title={navItem?.label ?? 'Not found'} />;
 }
 
-export function App() {
-  const [activeNavId, setActiveNavId] = useState(DEFAULT_NAV_ID);
+/** The app for a signed-in user. Remounted per user, so each starts on their own home page. */
+function SignedInApp({ role }) {
+  const [activeNavId, setActiveNavId] = useState(() => getHomeNavId(role));
+  const isViewOnly = getAccessLevel(role, activeNavId) === ACCESS_LEVELS.VIEW;
 
   return (
     <AppLayout activeNavId={activeNavId} onNavigate={setActiveNavId}>
@@ -84,8 +88,22 @@ export function App() {
         onError={(error) => console.error(error)}
         resetKeys={[activeNavId]}
       >
-        {renderPage(activeNavId, setActiveNavId)}
+        {isViewOnly && (
+          <p className={styles.viewOnly} role="note">
+            View only: your role ({role.name}) can see this page but shouldn’t make changes here.
+          </p>
+        )}
+        {renderPage(activeNavId, role, setActiveNavId)}
       </ErrorBoundary>
     </AppLayout>
   );
+}
+
+/** Sign-in first, then a new password if theirs is temporary, then the app. */
+export function App() {
+  const { currentUser, currentRole } = useAuth();
+
+  if (!currentUser) return <LoginPage />;
+  if (currentUser.mustChangePassword) return <ChangePasswordPage />;
+  return <SignedInApp key={currentUser.id} role={currentRole} />;
 }

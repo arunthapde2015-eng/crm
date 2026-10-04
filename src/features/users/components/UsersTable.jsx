@@ -1,8 +1,9 @@
 import { BADGE_TONES, Badge } from '@/components/Badge';
 import { Button } from '@/components/Button';
 import { DataTable } from '@/components/DataTable';
+import { DASHBOARDS, DASHBOARD_LABELS } from '@/constants/roles';
+import { USER_STATUSES, USER_STATUS_LABELS } from '@/constants/users';
 
-import { DASHBOARDS, DASHBOARD_LABELS, USER_STATUSES, USER_STATUS_LABELS } from '../constants';
 import { findRole, formatSignInTime } from '../utils/users';
 import styles from './Users.module.css';
 
@@ -60,6 +61,9 @@ export function UsersTable({ users, roles, canManage, onEdit, onResetPassword })
                 <Badge tone={isActive ? BADGE_TONES.SUCCESS : BADGE_TONES.NEUTRAL}>
                   {USER_STATUS_LABELS[user.status]}
                 </Badge>
+                {user.isLocked && (
+                  <span className={styles.subtext}>Locked: reset the password to unlock</span>
+                )}
                 {user.mustChangePassword && (
                   <span className={styles.subtext}>Must set a new password</span>
                 )}

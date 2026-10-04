@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
 import logoUrl from '@/assets/logo.png';
-import { APP_NAME, APP_TAGLINE, CURRENT_USER } from '@/constants/session';
+import { APP_NAME, APP_TAGLINE } from '@/constants/session';
+import { useAuth } from '@/context/AuthContext';
 import { getAccessibleNavGroups } from '@/utils/permissions';
 
 import styles from './Sidebar.module.css';
@@ -80,7 +81,8 @@ export function Sidebar({ id, isOpen, activeNavId, onNavigate }) {
   const sidebarClassNames = [styles.sidebar, isOpen && styles.open, 'print-hidden']
     .filter(Boolean)
     .join(' ');
-  const navGroups = getAccessibleNavGroups(CURRENT_USER.role);
+  const { currentRole } = useAuth();
+  const navGroups = getAccessibleNavGroups(currentRole);
 
   return (
     <aside id={id} className={sidebarClassNames}>

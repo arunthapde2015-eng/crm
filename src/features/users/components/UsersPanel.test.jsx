@@ -1,5 +1,7 @@
-import { render, screen, within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import { renderWithAuth } from '@/test/renderWithAuth';
 
 import { UsersPanel } from './UsersPanel';
 
@@ -7,7 +9,7 @@ const NOW = new Date(2026, 9, 4, 14, 5);
 
 function renderPanel(props = {}) {
   const user = userEvent.setup();
-  render(<UsersPanel now={NOW} {...props} />);
+  renderWithAuth(<UsersPanel now={NOW} {...props} />);
   return { user };
 }
 

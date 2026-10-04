@@ -4,7 +4,7 @@ import { Button } from '@/components/Button';
 import { PageHeader } from '@/components/PageHeader';
 import { Tabs } from '@/components/Tabs';
 import { NAV_IDS } from '@/constants/navigation';
-import { CURRENT_USER } from '@/constants/session';
+import { useAuth } from '@/context/AuthContext';
 import { toIsoDate } from '@/utils/formatDate';
 
 import { OPEN_NAV_IDS, TAB_IDS } from '../constants';
@@ -39,6 +39,7 @@ function formatSummary({ waiting, loggedToday, connectedToday }) {
  * @param {Date} [props.now] - Injectable for tests.
  */
 export function CallDeskPanel({ onNavigate, now = new Date() }) {
+  const { currentUser } = useAuth();
   const todayIso = toIsoDate(now);
   const { queue, callLog, logCall } = useCallDesk();
   const [activeTabId, setActiveTabId] = useState(TAB_IDS.QUEUE);
@@ -58,14 +59,14 @@ export function CallDeskPanel({ onNavigate, now = new Date() }) {
 
   function handleCallSubmit(values) {
     logCall(
-      createLogEntry(values, now, CURRENT_USER.name),
+      createLogEntry(values, now, currentUser.name),
       applyCallToQueue(queue, callingItem, values, todayIso),
     );
     closeForm();
   }
 
   function handleEnquirySubmit(values) {
-    const { queueItem, logEntry } = createEnquiry(values, now, CURRENT_USER.name);
+    const { queueItem, logEntry } = createEnquiry(values, now, currentUser.name);
     logCall(logEntry, [...queue, queueItem]);
     closeForm();
   }
@@ -74,7 +75,7 @@ export function CallDeskPanel({ onNavigate, now = new Date() }) {
     <>
       <PageHeader
         title="Call desk"
-        description={formatSummary(getSummary(queue, callLog, todayIso, CURRENT_USER.name))}
+        description={formatSummary(getSummary(queue, callLog, todayIso, currentUser.name))}
         actions={
           <>
             <Button onClick={() => openCallForm(null)}>Log a call</Button>

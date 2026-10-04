@@ -2,7 +2,7 @@ import { useId } from 'react';
 
 import { Drawer } from '@/components/Drawer';
 import { NAV_IDS } from '@/constants/navigation';
-import { CURRENT_USER } from '@/constants/session';
+import { useAuth } from '@/context/AuthContext';
 
 import { getToggledStatus } from '../utils/merchantDetails';
 import { MerchantDetails } from './MerchantDetails';
@@ -20,6 +20,7 @@ import { MerchantDetails } from './MerchantDetails';
  * @param {() => void} props.onClose
  */
 export function MerchantDetailDrawer({ merchant, actions, onNavigate, onEdit, onCopy, onClose }) {
+  const { currentUser } = useAuth();
   const headingId = useId();
 
   const handlers = {
@@ -39,7 +40,7 @@ export function MerchantDetailDrawer({ merchant, actions, onNavigate, onEdit, on
       actions.deleteMerchant(merchant.id);
     },
     onAddOutlet: (outletName) => actions.addOutlet(merchant.id, outletName),
-    onAddRemark: (text) => actions.addRemark(merchant.id, text, CURRENT_USER.name),
+    onAddRemark: (text) => actions.addRemark(merchant.id, text, currentUser.name),
   };
 
   return (

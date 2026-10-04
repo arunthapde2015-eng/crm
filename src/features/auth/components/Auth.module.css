@@ -1,0 +1,122 @@
+/* Full-height centred card; the app shell isn't shown until someone is signed in. */
+.page {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--space-6) var(--space-4);
+  background: var(--color-bg);
+}
+
+.card {
+  display: grid;
+  gap: var(--space-5);
+  width: 100%;
+  max-width: 26rem;
+  padding: var(--space-8) var(--space-6);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.logo {
+  flex-shrink: 0;
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
+.appName {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.tagline {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+}
+
+.intro {
+  margin: calc(-1 * var(--space-2)) 0 0;
+  color: var(--color-text-muted);
+}
+
+.form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* The Show/Hide button sits inside the password box, at its right edge. */
+.passwordField {
+  position: relative;
+}
+
+.passwordField input {
+  padding-right: 4.5rem;
+}
+
+.showPassword {
+  position: absolute;
+  right: var(--space-2);
+  bottom: 0.45rem;
+  padding: var(--space-1) var(--space-2);
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  font: inherit;
+  font-size: var(--font-size-sm);
+  color: var(--color-accent-text);
+  cursor: pointer;
+}
+
+.showPassword:hover {
+  background: var(--color-surface-raised);
+}
+
+.error {
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border-left: 3px solid var(--color-danger);
+  color: var(--color-danger-text);
+}
+
+ul.error {
+  padding-left: var(--space-6);
+}
+
+.submit {
+  width: 100%;
+}
+
+.help {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.linkButton {
+  justify-self: start;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: var(--font-size-sm);
+  color: var(--color-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}

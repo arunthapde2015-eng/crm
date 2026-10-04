@@ -33,8 +33,6 @@ export const NAV_IDS = {
   AUDIT_LOGS: 'audit-logs',
 };
 
-export const DEFAULT_NAV_ID = NAV_IDS.SETTINGS;
-
 // Accounting's sub-menu. All of these pages work from the same vouchers and bank accounts.
 const ACCOUNTING_ITEMS = [
   { id: NAV_IDS.VOUCHERS, label: 'Vouchers' },

@@ -4,7 +4,7 @@ import { PageHeader } from '@/components/PageHeader';
 import { SelectField } from '@/components/SelectField';
 import { STAT_TONES, StatGrid } from '@/components/StatGrid';
 import { NAV_IDS } from '@/constants/navigation';
-import { CURRENT_USER } from '@/constants/session';
+import { useAuth } from '@/context/AuthContext';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { toIsoDate } from '@/utils/formatDate';
 
@@ -69,6 +69,7 @@ function getStats({ counts, billed, dues }) {
  * @param {Date} [props.today] - Injectable for tests.
  */
 export function AmcPanel({ onNavigate, today = new Date() }) {
+  const { currentUser } = useAuth();
   const todayIso = toIsoDate(today);
   const { contracts, addPeriod, markPaid, updateContract } = useAmcContracts();
   const [filters, setFilters] = useState({ query: '', status: ALL_FILTER_VALUE });
@@ -89,7 +90,7 @@ export function AmcPanel({ onNavigate, today = new Date() }) {
   }
 
   function handleUpdate(changes, note, isRemark = false) {
-    const activity = createActivity(todayIso, note, CURRENT_USER.name, isRemark);
+    const activity = createActivity(todayIso, note, currentUser.name, isRemark);
     updateContract(openContractId, changes, activity);
   }
 

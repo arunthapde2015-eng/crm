@@ -1,5 +1,7 @@
-import { render, screen, within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import { renderWithAuth } from '@/test/renderWithAuth';
 
 import { TicketsPanel } from './TicketsPanel';
 
@@ -7,7 +9,7 @@ const TODAY = new Date(2026, 9, 4);
 
 function renderPanel() {
   const user = userEvent.setup();
-  render(<TicketsPanel today={TODAY} />);
+  renderWithAuth(<TicketsPanel today={TODAY} />);
   return { user };
 }
 

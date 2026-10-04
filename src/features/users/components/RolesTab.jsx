@@ -5,8 +5,9 @@ import { Button } from '@/components/Button';
 import { DataTable } from '@/components/DataTable';
 import { SelectField } from '@/components/SelectField';
 import { TextField } from '@/components/TextField';
+import { DASHBOARDS, DASHBOARD_LABELS } from '@/constants/roles';
 
-import { DASHBOARDS, DASHBOARD_LABELS, MAX_DESCRIPTION_LENGTH } from '../constants';
+import { MAX_DESCRIPTION_LENGTH } from '../constants';
 import {
   countModulesWithAccess,
   countUsers,

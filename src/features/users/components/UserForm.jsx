@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/Button';
 import { SelectField } from '@/components/SelectField';
 import { TextField } from '@/components/TextField';
+import { USER_STATUS_LABELS } from '@/constants/users';
 
-import { USER_STATUS_LABELS } from '../constants';
 import { validateUser } from '../utils/users';
 import styles from './Users.module.css';
 

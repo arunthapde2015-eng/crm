@@ -1,5 +1,7 @@
-import { render, screen, within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import { renderWithAuth } from '@/test/renderWithAuth';
 
 import { MerchantsPanel } from './MerchantsPanel';
 
@@ -9,7 +11,7 @@ function getMerchantRow(name) {
 
 describe('MerchantsPanel', () => {
   it('summarises the list and shows merchant details', () => {
-    render(<MerchantsPanel />);
+    renderWithAuth(<MerchantsPanel />);
 
     expect(screen.getByText(/^6 merchants, 6 active\. Inactive merchants/)).toBeInTheDocument();
     const konkan = getMerchantRow('Konkan Fresh Mart');
@@ -20,7 +22,7 @@ describe('MerchantsPanel', () => {
 
   it('filters by text and by state', async () => {
     const user = userEvent.setup();
-    render(<MerchantsPanel />);
+    renderWithAuth(<MerchantsPanel />);
 
     await user.selectOptions(screen.getByLabelText('State'), 'Goa');
     expect(screen.getAllByRole('rowheader')).toHaveLength(1);
@@ -32,7 +34,7 @@ describe('MerchantsPanel', () => {
 
   it('deactivates and reactivates a merchant', async () => {
     const user = userEvent.setup();
-    render(<MerchantsPanel />);
+    renderWithAuth(<MerchantsPanel />);
 
     await user.click(screen.getByRole('button', { name: 'Deactivate Konkan Fresh Mart' }));
 
@@ -45,7 +47,7 @@ describe('MerchantsPanel', () => {
 
   it('edits a merchant in place', async () => {
     const user = userEvent.setup();
-    render(<MerchantsPanel />);
+    renderWithAuth(<MerchantsPanel />);
 
     await user.click(screen.getByRole('button', { name: 'Edit Konkan Fresh Mart' }));
     const form = screen.getByRole('form', { name: 'Edit Konkan Fresh Mart' });
@@ -62,7 +64,7 @@ describe('MerchantsPanel', () => {
 
   it('copies a merchant into a new record without the GSTIN', async () => {
     const user = userEvent.setup();
-    render(<MerchantsPanel />);
+    renderWithAuth(<MerchantsPanel />);
 
     await user.click(screen.getByRole('button', { name: 'Copy Konkan Fresh Mart' }));
     const form = screen.getByRole('form', { name: 'New merchant from Konkan Fresh Mart' });
@@ -77,7 +79,7 @@ describe('MerchantsPanel', () => {
 
   it('adds a new merchant', async () => {
     const user = userEvent.setup();
-    render(<MerchantsPanel />);
+    renderWithAuth(<MerchantsPanel />);
 
     await user.click(screen.getByRole('button', { name: 'Add merchant' }));
     const form = screen.getByRole('form', { name: 'New merchant' });
@@ -90,7 +92,7 @@ describe('MerchantsPanel', () => {
 
   it('changes status for ticked merchants in bulk', async () => {
     const user = userEvent.setup();
-    render(<MerchantsPanel />);
+    renderWithAuth(<MerchantsPanel />);
 
     await user.click(screen.getByLabelText('Select all shown merchants'));
     const bulkActions = screen.getByRole('group', { name: 'Bulk actions' });
@@ -111,7 +113,7 @@ describe('Merchant detail panel', () => {
 
   it('opens from the merchant name with the lifecycle, actions and tabs', async () => {
     const user = userEvent.setup();
-    render(<MerchantsPanel onNavigate={vi.fn()} />);
+    renderWithAuth(<MerchantsPanel onNavigate={vi.fn()} />);
 
     const panel = await openDetails(user, 'Mauli Nagri Sahakari Patsanstha Marya Majalgaon');
 
@@ -128,7 +130,7 @@ describe('Merchant detail panel', () => {
 
   it('closes with the close button and returns focus to the name', async () => {
     const user = userEvent.setup();
-    render(<MerchantsPanel onNavigate={vi.fn()} />);
+    renderWithAuth(<MerchantsPanel onNavigate={vi.fn()} />);
 
     const panel = await openDetails(user, 'Konkan Fresh Mart');
     await user.click(within(panel).getByRole('button', { name: 'Close details' }));
@@ -140,7 +142,7 @@ describe('Merchant detail panel', () => {
   it('starts a quotation on the Quotation page', async () => {
     const user = userEvent.setup();
     const onNavigate = vi.fn();
-    render(<MerchantsPanel onNavigate={onNavigate} />);
+    renderWithAuth(<MerchantsPanel onNavigate={onNavigate} />);
 
     const panel = await openDetails(user, 'Konkan Fresh Mart');
     await user.click(within(panel).getByRole('button', { name: 'New quotation' }));
@@ -150,7 +152,7 @@ describe('Merchant detail panel', () => {
 
   it('adds an outlet and updates the linked records in the list', async () => {
     const user = userEvent.setup();
-    render(<MerchantsPanel onNavigate={vi.fn()} />);
+    renderWithAuth(<MerchantsPanel onNavigate={vi.fn()} />);
 
     const panel = await openDetails(user, 'Mauli Nagri Sahakari Patsanstha Marya Majalgaon');
     await user.click(within(panel).getByRole('button', { name: 'Add outlet' }));
@@ -167,7 +169,7 @@ describe('Merchant detail panel', () => {
 
   it('adds a remark to the timeline', async () => {
     const user = userEvent.setup();
-    render(<MerchantsPanel onNavigate={vi.fn()} />);
+    renderWithAuth(<MerchantsPanel onNavigate={vi.fn()} />);
 
     const panel = await openDetails(user, 'Konkan Fresh Mart');
     await user.click(within(panel).getByRole('button', { name: 'Add remark' }));
@@ -182,7 +184,7 @@ describe('Merchant detail panel', () => {
 
   it('blocks deleting a merchant with invoices', async () => {
     const user = userEvent.setup();
-    render(<MerchantsPanel onNavigate={vi.fn()} />);
+    renderWithAuth(<MerchantsPanel onNavigate={vi.fn()} />);
 
     const panel = await openDetails(user, 'Konkan Fresh Mart');
 
@@ -192,7 +194,7 @@ describe('Merchant detail panel', () => {
 
   it('deletes a merchant after confirmation', async () => {
     const user = userEvent.setup();
-    render(<MerchantsPanel onNavigate={vi.fn()} />);
+    renderWithAuth(<MerchantsPanel onNavigate={vi.fn()} />);
 
     const panel = await openDetails(user, 'Mauli Nagri Sahakari Patsanstha Marya Majalgaon');
     await user.click(within(panel).getByRole('button', { name: 'Delete' }));
@@ -204,7 +206,7 @@ describe('Merchant detail panel', () => {
 
   it('disables new quotations for inactive merchants', async () => {
     const user = userEvent.setup();
-    render(<MerchantsPanel onNavigate={vi.fn()} />);
+    renderWithAuth(<MerchantsPanel onNavigate={vi.fn()} />);
 
     const panel = await openDetails(user, 'Konkan Fresh Mart');
     await user.click(within(panel).getByRole('button', { name: 'Deactivate' }));

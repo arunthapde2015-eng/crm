@@ -1,6 +1,6 @@
 import { Icon } from '@/components/Icon';
-import { ROLE_LABELS } from '@/constants/roles';
-import { CURRENT_USER } from '@/constants/session';
+import { UNREAD_NOTIFICATION_COUNT } from '@/constants/session';
+import { useAuth } from '@/context/AuthContext';
 
 import { UserMenu } from './UserMenu';
 import styles from './Header.module.css';
@@ -15,7 +15,8 @@ import styles from './Header.module.css';
  * @param {(navId: string) => void} props.onNavigate
  */
 export function Header({ isNavOpen, navControlsId, onNavToggle, onNavigate }) {
-  const { name, role, unreadNotificationCount } = CURRENT_USER;
+  const { currentUser, currentRole } = useAuth();
+  const unreadNotificationCount = UNREAD_NOTIFICATION_COUNT;
 
   return (
     <header className={`${styles.header} print-hidden`}>
@@ -44,8 +45,8 @@ export function Header({ isNavOpen, navControlsId, onNavToggle, onNavigate }) {
       </div>
 
       <div className={styles.end}>
-        <span className={styles.role}>{ROLE_LABELS[role]}</span>
-        <UserMenu userName={name} onNavigate={onNavigate} />
+        <span className={styles.role}>{currentRole.name}</span>
+        <UserMenu userName={currentUser.name} onNavigate={onNavigate} />
         <button
           type="button"
           className={`${styles.iconButton} ${styles.notifications}`}

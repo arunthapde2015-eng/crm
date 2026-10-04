@@ -1,7 +1,7 @@
 import { BADGE_TONES, Badge } from '@/components/Badge';
 import { DataTable } from '@/components/DataTable';
+import { SIGN_IN_EVENTS } from '@/constants/users';
 
-import { SIGN_IN_EVENTS } from '../constants';
 import { findUser, formatSignInTime } from '../utils/users';
 import styles from './Users.module.css';
 
@@ -10,6 +10,9 @@ const EVENT_TONES = {
   [SIGN_IN_EVENTS.FAILED]: BADGE_TONES.DANGER,
   [SIGN_IN_EVENTS.PASSWORD_RESET]: BADGE_TONES.WARNING,
   [SIGN_IN_EVENTS.USER_ADDED]: BADGE_TONES.INFO,
+  [SIGN_IN_EVENTS.SIGNED_OUT]: BADGE_TONES.NEUTRAL,
+  [SIGN_IN_EVENTS.LOCKED]: BADGE_TONES.DANGER,
+  [SIGN_IN_EVENTS.PASSWORD_CHANGED]: BADGE_TONES.SUCCESS,
 };
 
 /**

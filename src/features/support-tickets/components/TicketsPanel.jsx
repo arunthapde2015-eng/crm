@@ -4,7 +4,7 @@ import { Button } from '@/components/Button';
 import { PageHeader } from '@/components/PageHeader';
 import { SelectField } from '@/components/SelectField';
 import { StatGrid } from '@/components/StatGrid';
-import { CURRENT_USER } from '@/constants/session';
+import { useAuth } from '@/context/AuthContext';
 import { toIsoDate } from '@/utils/formatDate';
 
 import {
@@ -84,6 +84,7 @@ function formatSummary({ open, pastDue, assignedToYou }) {
  * @param {Date} [props.today] - Injectable for tests.
  */
 export function TicketsPanel({ today = new Date() }) {
+  const { currentUser } = useAuth();
   const todayIso = toIsoDate(today);
   const { tickets, addTicket, replaceTicket } = useTickets();
   const [filters, setFilters] = useState(INITIAL_FILTERS);
@@ -93,7 +94,7 @@ export function TicketsPanel({ today = new Date() }) {
   const counts = getStatusCounts(tickets);
 
   function handleSubmit(values) {
-    const ticket = createTicket(values, tickets, todayIso, CURRENT_USER.name);
+    const ticket = createTicket(values, tickets, todayIso, currentUser.name);
     addTicket(ticket);
     setIsFormOpen(false);
     setOpenTicketId(ticket.id);
@@ -103,7 +104,7 @@ export function TicketsPanel({ today = new Date() }) {
     <>
       <PageHeader
         title="Support tickets"
-        description={formatSummary(getSummary(tickets, todayIso, CURRENT_USER.name))}
+        description={formatSummary(getSummary(tickets, todayIso, currentUser.name))}
         actions={
           <Button onClick={() => setIsFormOpen(true)} disabled={isFormOpen}>
             Raise ticket
@@ -164,7 +165,7 @@ export function TicketsPanel({ today = new Date() }) {
           ticket={openTicket}
           todayIso={todayIso}
           onUpdate={(values) =>
-            replaceTicket(applyUpdate(openTicket, values, todayIso, CURRENT_USER.name))
+            replaceTicket(applyUpdate(openTicket, values, todayIso, currentUser.name))
           }
           onClose={() => setOpenTicketId(null)}
         />
