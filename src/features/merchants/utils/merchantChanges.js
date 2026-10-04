@@ -1,3 +1,5 @@
+import { toIsoDate } from '@/utils/formatDate';
+
 import {
   COPY_NAME_SUFFIX,
   MERCHANT_NUMBER_DIGITS,
@@ -77,6 +79,10 @@ export function createMerchant(values, existingMerchants, createdAt = new Date()
     outstanding: 0,
     linkedRecords: {},
     status: MERCHANT_STATUSES.ACTIVE,
+    createdOn: toIsoDate(createdAt),
+    isFromLead: false,
+    outlets: [],
+    remarks: [],
   };
 }
 

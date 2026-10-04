@@ -35,7 +35,7 @@ describe('TasksPanel', () => {
 
     await user.click(screen.getByRole('button', { name: 'Konkan Fresh Mart, Margao' }));
 
-    expect(onNavigate).toHaveBeenCalledWith(NAV_IDS.CUSTOMERS);
+    expect(onNavigate).toHaveBeenCalledWith(NAV_IDS.MERCHANTS);
   });
 
   it('marks a task done from its status menu', async () => {

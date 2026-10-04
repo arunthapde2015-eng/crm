@@ -1,0 +1,216 @@
+/*
+ * The printed proposal. It is always dark text on white paper, in light and dark app themes,
+ * so these colours are local to the document rather than the app's theme tokens.
+ */
+.paper {
+  --doc-ink: #222222;
+  --doc-muted: #555555;
+  --doc-brand: #2b6cb0;
+  --doc-heading: #4a7fc1;
+  --doc-rule: #2b5fa0;
+  --doc-cell-border: #c9d9ee;
+  --doc-header-fill: #eaf2fb;
+
+  position: relative;
+  overflow: hidden;
+  max-width: 52rem;
+  margin: var(--space-5) auto 0;
+  padding: var(--space-8) var(--space-6);
+  border-radius: var(--radius);
+  background: #ffffff;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--doc-ink);
+  color-scheme: light;
+  print-color-adjust: exact;
+}
+
+/* Faint logo behind the content, as on the letterhead paper. */
+.watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70%;
+  max-width: 34rem;
+  opacity: 0.06;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.paper > :not(.watermark) {
+  position: relative;
+}
+
+.letterhead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding-bottom: var(--space-3);
+  border-bottom: 3px solid var(--doc-rule);
+}
+
+.logo {
+  flex-shrink: 0;
+  width: 6rem;
+  height: 6rem;
+}
+
+.letterheadText {
+  flex: 1;
+}
+
+.companyName {
+  margin: 0 0 var(--space-2);
+  font-family: Cambria, Georgia, serif;
+  font-size: 1.85rem;
+  line-height: 1.2;
+  color: var(--doc-brand);
+}
+
+.contact {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+  color: var(--doc-rule);
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  margin: var(--space-3) 0 var(--space-4);
+  font-family: Calibri, 'Segoe UI', sans-serif;
+  font-size: var(--font-size-sm);
+  color: var(--doc-muted);
+}
+
+.metaRow strong {
+  color: var(--doc-ink);
+}
+
+.sectionTitle {
+  margin: var(--space-5) 0 var(--space-2);
+  font-family: Calibri, 'Segoe UI', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--doc-heading);
+}
+
+.paragraph {
+  margin: 0 0 var(--space-3);
+}
+
+.salutation {
+  margin: var(--space-6) 0 var(--space-3);
+}
+
+/* ---- Price table ---- */
+
+.priceTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.priceTable :where(th, td) {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--doc-cell-border);
+  text-align: left;
+  vertical-align: top;
+  background: rgb(255 255 255 / 70%);
+}
+
+.priceTable thead :where(th) {
+  font-family: Calibri, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  color: var(--doc-ink);
+  background: var(--doc-header-fill);
+}
+
+.particulars {
+  font-weight: 400;
+}
+
+.particulars strong {
+  display: block;
+}
+
+.description {
+  display: block;
+}
+
+.amount {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.summaryLabel {
+  font-weight: 400;
+  text-align: right;
+}
+
+.totalRow :where(th, td) {
+  font-weight: 700;
+}
+
+.amountInWords {
+  margin: var(--space-1) 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--doc-muted);
+}
+
+/* ---- Extra sections and sign-off ---- */
+
+.extraSection {
+  break-inside: avoid;
+}
+
+.subheading {
+  margin: 0 0 var(--space-1);
+}
+
+.bullets {
+  margin: 0 0 var(--space-3);
+  padding-left: var(--space-6);
+}
+
+.signature {
+  margin-top: var(--space-6);
+  font-family: Calibri, 'Segoe UI', sans-serif;
+  font-weight: 700;
+}
+
+.signature p {
+  margin: 0;
+}
+
+.signature .signatureCompany {
+  margin-top: var(--space-5);
+}
+
+@media (max-width: 40rem) {
+  .paper {
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .letterhead {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .contact {
+    text-align: left;
+  }
+}
+
+@media print {
+  .paper {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+  }
+}

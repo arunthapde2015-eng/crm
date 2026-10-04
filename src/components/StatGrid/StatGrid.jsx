@@ -4,6 +4,7 @@ export const STAT_TONES = {
   DEFAULT: 'default',
   WARNING: 'warning',
   DANGER: 'danger',
+  SUCCESS: 'success',
 };
 
 /**

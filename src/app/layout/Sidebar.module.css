@@ -105,3 +105,37 @@
   text-align: center;
   color: var(--color-on-danger);
 }
+
+/* Sub-menu items sit indented under their parent, a size smaller. */
+.subList {
+  margin: var(--space-1) 0 var(--space-2);
+  padding: 0 0 0 var(--space-4);
+  list-style: none;
+}
+
+.subList .item {
+  font-size: var(--font-size-md);
+  color: var(--color-text-muted);
+}
+
+.subList .item[aria-current='page'] {
+  color: var(--color-text);
+}
+
+.chevron,
+.chevronOpen {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-subtle);
+  transition: transform 0.15s ease;
+}
+
+.chevronOpen {
+  transform: rotate(90deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron,
+  .chevronOpen {
+    transition: none;
+  }
+}

@@ -1,6 +1,6 @@
 import { DataTable } from '@/components/DataTable';
 
-import { MERCHANT_STATUSES } from '../constants';
+import { getToggledStatus } from '../utils/merchantDetails';
 import { MerchantRow } from './MerchantRow';
 import styles from './MerchantsTable.module.css';
 
@@ -10,19 +10,12 @@ const COLUMN_COUNT = 12;
  * @param {object} props
  * @param {object[]} props.merchants - Merchants to show, already filtered and sorted.
  * @param {ReturnType<import('@/hooks/useSelection').useSelection>} props.selection
+ * @param {(merchant: object) => void} props.onOpen - Opens the detail panel.
  * @param {(merchant: object) => void} props.onEdit
  * @param {(merchant: object) => void} props.onCopy
  * @param {(merchantIds: string[], status: string) => void} props.onSetStatus
  */
-export function MerchantsTable({ merchants, selection, onEdit, onCopy, onSetStatus }) {
-  function handleToggleStatus(merchant) {
-    const nextStatus =
-      merchant.status === MERCHANT_STATUSES.ACTIVE
-        ? MERCHANT_STATUSES.INACTIVE
-        : MERCHANT_STATUSES.ACTIVE;
-    onSetStatus([merchant.id], nextStatus);
-  }
-
+export function MerchantsTable({ merchants, selection, onOpen, onEdit, onCopy, onSetStatus }) {
   return (
     <DataTable caption="Merchants" tableClassName={styles.table}>
       <thead>
@@ -73,9 +66,10 @@ export function MerchantsTable({ merchants, selection, onEdit, onCopy, onSetStat
             merchant={merchant}
             isSelected={selection.isSelected(merchant.id)}
             onToggleSelect={() => selection.toggle(merchant.id)}
+            onOpen={() => onOpen(merchant)}
             onEdit={() => onEdit(merchant)}
             onCopy={() => onCopy(merchant)}
-            onToggleStatus={() => handleToggleStatus(merchant)}
+            onToggleStatus={() => onSetStatus([merchant.id], getToggledStatus(merchant))}
           />
         ))}
       </tbody>

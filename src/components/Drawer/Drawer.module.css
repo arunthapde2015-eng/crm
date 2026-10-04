@@ -1,0 +1,44 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-popover);
+  border: 0;
+  background: var(--color-overlay);
+  cursor: pointer;
+}
+
+/* Full screen on phones; a wide panel from the right on larger screens. */
+.panel {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-popover) + 1);
+  overflow-y: auto;
+  padding: var(--space-5) var(--space-4);
+  background: var(--color-header);
+}
+
+.panel:focus {
+  outline: none;
+}
+
+@media (min-width: 48rem) {
+  .panel {
+    inset: 0 0 0 auto;
+    width: min(60rem, 92vw);
+    padding: var(--space-6);
+    border-left: 1px solid var(--color-border);
+    box-shadow: -1rem 0 2rem rgb(0 0 0 / 35%);
+  }
+}
+
+@media print {
+  .backdrop {
+    display: none;
+  }
+
+  .panel {
+    position: static;
+    width: auto;
+    box-shadow: none;
+  }
+}

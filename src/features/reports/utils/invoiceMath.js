@@ -1,4 +1,4 @@
-import { COMPANY_STATE } from '../constants';
+import { COMPANY_STATE } from '@/constants/company';
 
 const PERCENT = 100;
 

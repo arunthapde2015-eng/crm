@@ -3,14 +3,11 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { Button } from '@/components/Button';
 import { SelectField } from '@/components/SelectField';
 import { TextField } from '@/components/TextField';
+import { INDIAN_STATES } from '@/constants/states';
 import { SALESPERSONS } from '@/constants/team';
+import { GSTIN_PATTERN } from '@/constants/validation';
 
-import {
-  MERCHANT_TYPE_LABELS,
-  GSTIN_PATTERN,
-  INDIAN_STATES,
-  MOBILE_NUMBER_PATTERN,
-} from '../constants';
+import { MERCHANT_TYPE_LABELS, MOBILE_NUMBER_PATTERN } from '../constants';
 import styles from './MerchantForm.module.css';
 
 const TYPE_OPTIONS = Object.entries(MERCHANT_TYPE_LABELS).map(([value, label]) => ({

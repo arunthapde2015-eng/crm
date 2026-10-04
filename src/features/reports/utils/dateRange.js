@@ -48,25 +48,3 @@ export function findMatchingPreset(range, today) {
 export function isValidRange({ from, to }) {
   return Boolean(from) && Boolean(to) && from <= to;
 }
-
-/** ISO dates compare correctly as strings; both ends are inclusive. */
-export function isInRange(isoDate, { from, to }) {
-  return isoDate >= from && isoDate <= to;
-}
-
-/** First day of every month the range touches, as "YYYY-MM" keys, oldest first. */
-export function getMonthKeys({ from, to }) {
-  const keys = [];
-  let [year, month] = from.split('-').map(Number);
-  const [endYear, endMonth] = to.split('-').map(Number);
-
-  while (year < endYear || (year === endYear && month <= endMonth)) {
-    keys.push(`${year}-${String(month).padStart(2, '0')}`);
-    month += 1;
-    if (month > 12) {
-      month = 1;
-      year += 1;
-    }
-  }
-  return keys;
-}

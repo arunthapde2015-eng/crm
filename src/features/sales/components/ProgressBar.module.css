@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 10rem;
+}
+
+.track {
+  flex: 1;
+  height: 0.5rem;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--color-border);
+}
+
+.fill,
+.fillMet {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+}
+
+.fill {
+  background: var(--color-accent);
+}
+
+/* Target met: reuse the success status colour, with the % label carrying the meaning too. */
+.fillMet {
+  background: var(--color-success-text);
+}
+
+.percent {
+  min-width: 3rem;
+  font-size: var(--font-size-sm);
+  text-align: right;
+}

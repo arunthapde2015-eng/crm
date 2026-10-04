@@ -34,12 +34,12 @@ export const DEFAULT_TASK_FILTERS = {
 };
 
 // Records a task can point at, and the page that opens when the link is clicked.
-// Placeholder list until tasks can link to real customer and lead records.
+// Placeholder list until tasks can link to real merchant and lead records.
 export const LINK_TARGETS = [
-  { id: 'vidya-vikas', label: 'Vidya Vikas School, Baner', navId: NAV_IDS.CUSTOMERS },
+  { id: 'vidya-vikas', label: 'Vidya Vikas School, Baner', navId: NAV_IDS.MERCHANTS },
   { id: 'deccan-institute', label: 'Deccan Institute of Management', navId: NAV_IDS.LEADS },
-  { id: 'konkan-fresh-mart', label: 'Konkan Fresh Mart, Margao', navId: NAV_IDS.CUSTOMERS },
-  { id: 'nirmal-credit', label: 'Nirmal Co-operative Credit Society', navId: NAV_IDS.CUSTOMERS },
+  { id: 'konkan-fresh-mart', label: 'Konkan Fresh Mart, Margao', navId: NAV_IDS.MERCHANTS },
+  { id: 'nirmal-credit', label: 'Nirmal Co-operative Credit Society', navId: NAV_IDS.MERCHANTS },
   { id: 'metro-fitness', label: 'Metro Fitness Studio', navId: NAV_IDS.LEADS },
 ];
 

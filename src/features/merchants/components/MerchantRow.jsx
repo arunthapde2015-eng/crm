@@ -4,6 +4,7 @@ import { formatCurrency } from '@/utils/formatCurrency';
 import { formatMobile } from '@/utils/formatPhone';
 
 import { MERCHANT_STATUSES, MERCHANT_STATUS_LABELS, MERCHANT_TYPE_LABELS } from '../constants';
+import { getLinkedCounts } from '../utils/merchantDetails';
 import { formatLinkedRecords } from '../utils/merchantQueries';
 import styles from './MerchantsTable.module.css';
 
@@ -21,6 +22,7 @@ function NoneCell() {
  * @param {object} props.merchant
  * @param {boolean} props.isSelected
  * @param {() => void} props.onToggleSelect
+ * @param {() => void} props.onOpen - Opens the merchant's detail panel.
  * @param {() => void} props.onEdit
  * @param {() => void} props.onCopy
  * @param {() => void} props.onToggleStatus
@@ -29,12 +31,13 @@ export function MerchantRow({
   merchant,
   isSelected,
   onToggleSelect,
+  onOpen,
   onEdit,
   onCopy,
   onToggleStatus,
 }) {
   const isActive = merchant.status === MERCHANT_STATUSES.ACTIVE;
-  const linkedRecordsText = formatLinkedRecords(merchant.linkedRecords);
+  const linkedRecordsText = formatLinkedRecords(getLinkedCounts(merchant));
   const ownerName = SALESPERSON_NAMES.get(merchant.ownerId);
   const rowClassNames = [isSelected && styles.selectedRow, !isActive && styles.inactiveRow]
     .filter(Boolean)
@@ -51,7 +54,9 @@ export function MerchantRow({
         />
       </td>
       <th scope="row" className={styles.merchantCell}>
-        <span className={styles.primary}>{merchant.name}</span>
+        <button type="button" className={styles.nameButton} onClick={onOpen}>
+          {merchant.name}
+        </button>
         <span className={styles.secondary}>
           {merchant.number}
           {merchant.contactName && `, ${merchant.contactName}`}

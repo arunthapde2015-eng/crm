@@ -10,14 +10,21 @@ export function canAccessNav(role, navId) {
   return ROLE_NAV_ACCESS[role]?.includes(navId) ?? false;
 }
 
+/** An item with only the sub-items the role may open, or null if it's left with nothing. */
+function trimNavItem(role, item) {
+  if (!item.children) return canAccessNav(role, item.id) ? item : null;
+  const children = item.children.filter((child) => canAccessNav(role, child.id));
+  return children.length > 0 ? { ...item, children } : null;
+}
+
 /**
- * NAV_GROUPS trimmed to the items the role may open; groups left empty are dropped.
+ * NAV_GROUPS trimmed to the items (and sub-items) the role may open; groups left empty are dropped.
  *
  * @param {string} role - One of ROLES.
  */
 export function getAccessibleNavGroups(role) {
   return NAV_GROUPS.map((group) => ({
     ...group,
-    items: group.items.filter((item) => canAccessNav(role, item.id)),
+    items: group.items.map((item) => trimNavItem(role, item)).filter(Boolean),
   })).filter((group) => group.items.length > 0);
 }

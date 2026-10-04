@@ -91,3 +91,21 @@
   text-align: center;
   color: var(--color-text-muted);
 }
+
+/* The merchant name opens its detail panel; styled as a link so it reads as clickable. */
+.nameButton {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.nameButton:hover {
+  color: var(--color-accent-text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}

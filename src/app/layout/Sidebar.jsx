@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import logoUrl from '@/assets/logo.png';
 import { APP_NAME, APP_TAGLINE, CURRENT_USER } from '@/constants/session';
 import { getAccessibleNavGroups } from '@/utils/permissions';
@@ -23,6 +25,44 @@ function NavItem({ item, isActive, onNavigate }) {
           </span>
         )}
       </button>
+    </li>
+  );
+}
+
+/** An item that opens a sub-menu instead of a page. It starts open while one of its pages is. */
+function NavParent({ item, activeNavId, onNavigate }) {
+  const hasActiveChild = item.children.some((child) => child.id === activeNavId);
+  // null until the user toggles it, so it follows the active page until then.
+  const [isToggledOpen, setIsToggledOpen] = useState(null);
+  const isOpen = isToggledOpen ?? hasActiveChild;
+  const listId = `nav-children-${item.id}`;
+
+  return (
+    <li>
+      <button
+        type="button"
+        className={styles.item}
+        aria-expanded={isOpen}
+        aria-controls={listId}
+        onClick={() => setIsToggledOpen(!isOpen)}
+      >
+        <span>{item.label}</span>
+        <span aria-hidden="true" className={isOpen ? styles.chevronOpen : styles.chevron}>
+          ▸
+        </span>
+      </button>
+      {isOpen && (
+        <ul id={listId} className={styles.subList}>
+          {item.children.map((child) => (
+            <NavItem
+              key={child.id}
+              item={child}
+              isActive={child.id === activeNavId}
+              onNavigate={onNavigate}
+            />
+          ))}
+        </ul>
+      )}
     </li>
   );
 }
@@ -64,14 +104,23 @@ export function Sidebar({ id, isOpen, activeNavId, onNavigate }) {
               {group.label}
             </h2>
             <ul className={styles.list}>
-              {group.items.map((item) => (
-                <NavItem
-                  key={item.id}
-                  item={item}
-                  isActive={item.id === activeNavId}
-                  onNavigate={onNavigate}
-                />
-              ))}
+              {group.items.map((item) =>
+                item.children ? (
+                  <NavParent
+                    key={item.id}
+                    item={item}
+                    activeNavId={activeNavId}
+                    onNavigate={onNavigate}
+                  />
+                ) : (
+                  <NavItem
+                    key={item.id}
+                    item={item}
+                    isActive={item.id === activeNavId}
+                    onNavigate={onNavigate}
+                  />
+                ),
+              )}
             </ul>
           </section>
         ))}

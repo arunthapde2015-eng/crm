@@ -14,6 +14,7 @@ import {
 } from '../utils/merchantChanges';
 import { filterMerchants, getMerchantStates, getMerchantSummary } from '../utils/merchantQueries';
 import { BulkStatusBar } from './BulkStatusBar';
+import { MerchantDetailDrawer } from './MerchantDetailDrawer';
 import { MerchantFilters } from './MerchantFilters';
 import { MerchantForm } from './MerchantForm';
 import { MerchantsTable } from './MerchantsTable';
@@ -43,11 +44,19 @@ function getFormConfig({ mode, merchant }) {
   };
 }
 
-export function MerchantsPanel() {
-  const { merchants, addMerchant, updateMerchant, setStatus } = useMerchants();
+/**
+ * @param {object} props
+ * @param {(navId: string) => void} props.onNavigate - Opens another page (e.g. Quotation).
+ */
+export function MerchantsPanel({ onNavigate }) {
+  const merchantActions = useMerchants();
+  const { merchants, addMerchant, updateMerchant, setStatus } = merchantActions;
   const [filters, setFilters] = useState(DEFAULT_MERCHANT_FILTERS);
   // null when closed, otherwise { mode, merchant? } describing what the form is doing.
   const [openForm, setOpenForm] = useState(null);
+  // Looked up from the live list so the panel shows edits, and closes if the merchant is deleted.
+  const [detailMerchantId, setDetailMerchantId] = useState(null);
+  const detailMerchant = merchants.find((merchant) => merchant.id === detailMerchantId);
 
   const visibleMerchants = filterMerchants(merchants, filters);
   const selection = useSelection(visibleMerchants.map((merchant) => merchant.id));
@@ -103,11 +112,23 @@ export function MerchantsPanel() {
         <MerchantsTable
           merchants={visibleMerchants}
           selection={selection}
+          onOpen={(merchant) => setDetailMerchantId(merchant.id)}
           onEdit={(merchant) => setOpenForm({ mode: FORM_MODES.EDIT, merchant })}
           onCopy={(merchant) => setOpenForm({ mode: FORM_MODES.COPY, merchant })}
           onSetStatus={setStatus}
         />
       </div>
+
+      {detailMerchant && (
+        <MerchantDetailDrawer
+          merchant={detailMerchant}
+          actions={merchantActions}
+          onNavigate={onNavigate}
+          onEdit={(merchant) => setOpenForm({ mode: FORM_MODES.EDIT, merchant })}
+          onCopy={(merchant) => setOpenForm({ mode: FORM_MODES.COPY, merchant })}
+          onClose={() => setDetailMerchantId(null)}
+        />
+      )}
     </>
   );
 }

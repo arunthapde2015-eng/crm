@@ -50,3 +50,7 @@
 .danger {
   color: var(--color-danger-text);
 }
+
+.success {
+  color: var(--color-success-text);
+}

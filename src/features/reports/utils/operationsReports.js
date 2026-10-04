@@ -1,4 +1,5 @@
 import { SALESPERSON_NAMES } from '@/constants/team';
+import { isInRange } from '@/utils/dateRange';
 import { addDays, toIsoDate } from '@/utils/formatDate';
 
 import {
@@ -8,7 +9,6 @@ import {
   QUOTATION_STATUS_LABELS,
   REPORT_IDS,
 } from '../constants';
-import { isInRange } from './dateRange';
 
 const { TEXT, CURRENCY, DATE } = COLUMN_TYPES;
 

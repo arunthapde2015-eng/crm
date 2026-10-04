@@ -1,0 +1,43 @@
+/* Scrolls sideways on narrow screens rather than wrapping the chevrons. */
+.stepper {
+  display: flex;
+  overflow-x: auto;
+  margin: 0;
+  padding: 0 0 var(--space-2);
+  list-style: none;
+}
+
+.step,
+.done {
+  flex-shrink: 0;
+  padding: var(--space-2) var(--space-6) var(--space-2) var(--space-6);
+  margin-right: -0.5rem;
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+  /* Arrow-shaped segment: notch on the left, point on the right. */
+  clip-path: polygon(
+    0 0,
+    calc(100% - 0.75rem) 0,
+    100% 50%,
+    calc(100% - 0.75rem) 100%,
+    0 100%,
+    0.75rem 50%
+  );
+}
+
+.step:first-child,
+.done:first-child {
+  padding-left: var(--space-3);
+  clip-path: polygon(0 0, calc(100% - 0.75rem) 0, 100% 50%, calc(100% - 0.75rem) 100%, 0 100%);
+}
+
+.step {
+  background: var(--color-surface-raised);
+  color: var(--color-text-muted);
+}
+
+.done {
+  background: var(--color-primary);
+  font-weight: 600;
+  color: var(--color-on-primary);
+}

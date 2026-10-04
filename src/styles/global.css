@@ -120,6 +120,11 @@ body {
     --color-border-subtle: #cccccc;
   }
 
+  /* While a side panel is open, print only the panel (e.g. a quotation), not the page behind. */
+  body:has(> [data-drawer-layer]) > #root {
+    display: none !important;
+  }
+
   .print-hidden,
   [role='tablist'],
   button,

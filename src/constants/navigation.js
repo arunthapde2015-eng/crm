@@ -7,7 +7,6 @@ export const NAV_IDS = {
   LEADS: 'leads',
   PIPELINE: 'pipeline',
   FOLLOW_UPS: 'follow-ups',
-  CUSTOMERS: 'customers',
   SALES: 'sales',
   QUOTATIONS: 'quotations',
   INCENTIVES: 'incentives',
@@ -19,6 +18,13 @@ export const NAV_IDS = {
   EXPENSES: 'expenses',
   PURCHASES: 'purchases',
   ACCOUNTING: 'accounting',
+  VOUCHERS: 'vouchers',
+  LEDGERS: 'ledgers',
+  TRIAL_BALANCE: 'trial-balance',
+  INCOME_GL: 'income-gl',
+  EXPENSE_GL: 'expense-gl',
+  BANK_BOOK: 'bank-book',
+  BANKS: 'banks',
   CALL_DESK: 'call-desk',
   SUPPORT_TICKETS: 'support-tickets',
   USERS: 'users',
@@ -28,6 +34,17 @@ export const NAV_IDS = {
 };
 
 export const DEFAULT_NAV_ID = NAV_IDS.SETTINGS;
+
+// Accounting's sub-menu. All of these pages work from the same vouchers and bank accounts.
+const ACCOUNTING_ITEMS = [
+  { id: NAV_IDS.VOUCHERS, label: 'Vouchers' },
+  { id: NAV_IDS.LEDGERS, label: 'Ledgers' },
+  { id: NAV_IDS.TRIAL_BALANCE, label: 'Trial balance, P&L' },
+  { id: NAV_IDS.INCOME_GL, label: 'Income GL' },
+  { id: NAV_IDS.EXPENSE_GL, label: 'Expense GL' },
+  { id: NAV_IDS.BANK_BOOK, label: 'Bank GL & bank book' },
+  { id: NAV_IDS.BANKS, label: 'Manage banks' },
+];
 
 // Badge counts are placeholders until each module exposes its own pending count.
 export const NAV_GROUPS = [
@@ -47,7 +64,6 @@ export const NAV_GROUPS = [
       { id: NAV_IDS.LEADS, label: 'Lead Management', badgeCount: 2 },
       { id: NAV_IDS.PIPELINE, label: 'Pipeline' },
       { id: NAV_IDS.FOLLOW_UPS, label: 'Follow-ups', badgeCount: 4 },
-      { id: NAV_IDS.CUSTOMERS, label: 'Customer Management' },
       { id: NAV_IDS.SALES, label: 'Sales Management' },
       { id: NAV_IDS.QUOTATIONS, label: 'Quotation', badgeCount: 1 },
       { id: NAV_IDS.INCENTIVES, label: 'Incentives' },
@@ -73,7 +89,7 @@ export const NAV_GROUPS = [
     items: [
       { id: NAV_IDS.EXPENSES, label: 'Expense Management' },
       { id: NAV_IDS.PURCHASES, label: 'Purchase Management' },
-      { id: NAV_IDS.ACCOUNTING, label: 'Accounting' },
+      { id: NAV_IDS.ACCOUNTING, label: 'Accounting', children: ACCOUNTING_ITEMS },
     ],
   },
   {
@@ -94,4 +110,10 @@ export const NAV_GROUPS = [
   },
 ];
 
-export const NAV_ITEMS = NAV_GROUPS.flatMap((group) => group.items);
+// Every item including sub-items, for access checks and page titles. A parent with sub-items only
+// opens and closes its sub-menu; it isn't a page of its own.
+export const NAV_ITEMS = NAV_GROUPS.flatMap((group) =>
+  group.items.flatMap((item) => [item, ...(item.children ?? [])]),
+);
+
+export const ACCOUNTING_NAV_IDS = ACCOUNTING_ITEMS.map((item) => item.id);

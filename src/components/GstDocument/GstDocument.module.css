@@ -1,0 +1,320 @@
+/*
+ * A printed GST document (proforma, tax invoice). Always dark text on white paper in either
+ * app theme, so its colours are local to the document rather than the app's theme tokens.
+ */
+.paper {
+  --doc-ink: #1f2933;
+  --doc-muted: #52606d;
+  --doc-blue: #1f6fb2;
+  --doc-line: #2b6cb0;
+  --doc-cell: #c3d6ec;
+  --doc-fill: #e8f1fb;
+
+  position: relative;
+  overflow: hidden;
+  max-width: 60rem;
+  margin: var(--space-4) auto 0;
+  padding: var(--space-6);
+  border-radius: var(--radius);
+  background: #ffffff;
+  font-family: var(--font-family);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--doc-ink);
+  color-scheme: light;
+  print-color-adjust: exact;
+}
+
+.watermark {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  width: 60%;
+  max-width: 32rem;
+  opacity: 0.06;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.paper > :not(.watermark) {
+  position: relative;
+}
+
+/* Zero-specificity reset so the paragraph classes below can set their own margins. */
+.paper :where(p) {
+  margin: 0;
+}
+
+/* ---- Letterhead ---- */
+
+.letterhead {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: var(--space-5);
+  align-items: start;
+  margin-bottom: var(--space-4);
+}
+
+.logo {
+  width: 7rem;
+  height: 7rem;
+}
+
+.companyName {
+  margin-bottom: var(--space-3);
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.addressLine {
+  color: var(--doc-muted);
+}
+
+.contact {
+  text-align: right;
+}
+
+/* ---- Framed body ---- */
+
+.frame {
+  border: 1px solid var(--doc-line);
+}
+
+.docTitle {
+  margin: 0;
+  padding: var(--space-2);
+  border-bottom: 1px solid var(--doc-line);
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--doc-blue);
+}
+
+.parties {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  border-bottom: 1px solid var(--doc-line);
+}
+
+.customer {
+  border-right: 1px solid var(--doc-line);
+}
+
+.partyHeading {
+  margin: 0;
+  padding: var(--space-1);
+  border-bottom: 1px solid var(--doc-line);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.detailList {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: var(--space-2) var(--space-2) var(--space-3);
+}
+
+.detailRow {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: var(--space-2);
+}
+
+.detailRow dt {
+  font-weight: 700;
+}
+
+.detailRow dd {
+  margin: 0;
+}
+
+.docDetails .detailRow {
+  grid-template-columns: 9rem minmax(0, 1fr);
+}
+
+/* ---- Items ---- */
+
+.items {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.items :where(th, td) {
+  padding: var(--space-2);
+  border-right: 1px solid var(--doc-line);
+  vertical-align: top;
+  text-align: left;
+}
+
+.items :where(th, td):last-child {
+  border-right: 0;
+}
+
+.items thead :where(th) {
+  border-bottom: 1px solid var(--doc-line);
+  font-weight: 600;
+  text-align: center;
+  background: var(--doc-fill);
+}
+
+.product {
+  font-weight: 400;
+}
+
+.product strong,
+.product em {
+  display: block;
+}
+
+.center {
+  text-align: center;
+}
+
+.number {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.totalColumn {
+  background: var(--doc-fill);
+}
+
+.filler td {
+  height: 2rem;
+}
+
+/* ---- Footer: words, bank, terms | totals, signature ---- */
+
+.footer {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  border-top: 1px solid var(--doc-line);
+}
+
+.footer > div:first-child {
+  border-right: 1px solid var(--doc-line);
+}
+
+.footerBlock {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--doc-cell);
+}
+
+.footerBlock:last-child {
+  border-bottom: 0;
+}
+
+.footerHeading {
+  margin-bottom: var(--space-1);
+  font-weight: 700;
+}
+
+.words {
+  font-weight: 600;
+}
+
+.compactList {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+
+.totals {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.totals :where(th, td) {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--doc-cell);
+  font-weight: 400;
+  text-align: left;
+}
+
+.totals td {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.grandTotal :where(th, td) {
+  font-size: 1rem;
+  font-weight: 700;
+  background: var(--doc-fill);
+}
+
+.eoe {
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-size-xs);
+  text-align: right;
+  color: var(--doc-muted);
+}
+
+.signature {
+  padding: var(--space-3);
+  text-align: center;
+}
+
+.signatureLine {
+  margin-top: var(--space-8);
+  padding-top: var(--space-1);
+  border-top: 1px solid var(--doc-cell);
+  font-weight: 600;
+}
+
+.notice {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-xs);
+  text-align: center;
+  color: var(--doc-muted);
+}
+
+/* ---- Small screens: stack the side-by-side blocks ---- */
+
+@media (max-width: 48rem) {
+  .paper {
+    padding: var(--space-4);
+  }
+
+  .letterhead {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .contact {
+    grid-column: 1 / -1;
+    text-align: left;
+  }
+
+  .parties,
+  .footer {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .customer,
+  .footer > div:first-child {
+    border-right: 0;
+    border-bottom: 1px solid var(--doc-line);
+  }
+
+  .items {
+    font-size: var(--font-size-xs);
+  }
+}
+
+@media print {
+  .paper {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+  }
+}
+
+/* The "@ 18%" under a line's GST amount on tax invoices. */
+.rate {
+  display: block;
+  font-size: var(--font-size-xs);
+  color: var(--doc-muted);
+}

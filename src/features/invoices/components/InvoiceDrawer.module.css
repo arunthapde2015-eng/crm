@@ -1,0 +1,179 @@
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: 800;
+}
+
+.subtitle {
+  margin: var(--space-1) 0 0;
+  color: var(--color-text-muted);
+}
+
+.link {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  color: var(--color-accent-text);
+  cursor: pointer;
+}
+
+.headerEnd {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.closeButton {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-bg);
+  font-size: var(--font-size-lg);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Links that open WhatsApp / the mail app, styled like the secondary buttons beside them. */
+.linkButton {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.linkButton:hover {
+  background: var(--color-surface-raised);
+}
+
+/* Scoped under .actions so they win over the Button variant colours. */
+.actions .cancelButton {
+  color: var(--color-danger-text);
+}
+
+.actions .dangerButton {
+  background: var(--color-danger);
+  color: var(--color-on-danger);
+}
+
+.confirm {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-danger-text);
+  border-radius: var(--radius);
+}
+
+.confirm p {
+  margin: 0;
+}
+
+.hint {
+  margin: var(--space-2) 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-warning);
+}
+
+.chrome {
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* Incentive explanation under the action buttons. */
+.info {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius);
+  background: var(--color-surface-raised);
+  color: var(--color-text-muted);
+}
+
+/* Inline forms: record payment, credit/debit note. */
+.panel {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-raised);
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: var(--font-size-md);
+  font-weight: 700;
+}
+
+.panelGrid {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.error {
+  margin: 0;
+  color: var(--color-danger-text);
+}
+
+.history {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.historyList {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--font-size-sm);
+}
+
+.historyList li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.credit {
+  white-space: nowrap;
+  color: var(--color-success-text);
+}
+
+.debit {
+  white-space: nowrap;
+  color: var(--color-warning);
+}
+
+@media (min-width: 48rem) {
+  .panelGrid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

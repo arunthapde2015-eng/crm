@@ -8,7 +8,6 @@ const SUPER_ADMIN_MODULES = [
   'User Management',
   'Role & Permission Management',
   'Lead Management',
-  'Customer Management',
   'Merchant Management',
   'Sales Management',
   'Quotation',

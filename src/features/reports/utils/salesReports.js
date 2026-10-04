@@ -1,7 +1,7 @@
 import { SALESPERSONS, SALESPERSON_NAMES } from '@/constants/team';
+import { formatMonthKey, getMonthKeys, isInRange } from '@/utils/dateRange';
 
 import { COLUMN_TYPES, REPORT_IDS } from '../constants';
-import { getMonthKeys, isInRange } from './dateRange';
 import {
   getAmountPaid,
   getGstAmount,
@@ -14,8 +14,6 @@ import {
 } from './invoiceMath';
 
 const { TEXT, NUMBER, CURRENCY, PERCENT } = COLUMN_TYPES;
-
-const MONTH_LABEL_FORMATTER = new Intl.DateTimeFormat('en-IN', { month: 'short', year: 'numeric' });
 
 function invoicesInRange(data, range) {
   return data.invoices.filter((invoice) => isInRange(invoice.date, range));
@@ -150,10 +148,9 @@ export const monthlyReport = {
 
     return getMonthKeys(range).map((monthKey) => {
       const monthInvoices = invoices.filter((invoice) => invoice.date.startsWith(monthKey));
-      const [year, month] = monthKey.split('-').map(Number);
       return {
         id: monthKey,
-        month: MONTH_LABEL_FORMATTER.format(new Date(year, month - 1, 1)),
+        month: formatMonthKey(monthKey),
         invoiceCount: monthInvoices.length,
         taxable: sumBy(monthInvoices, (invoice) => invoice.taxable),
         gst: sumBy(monthInvoices, getGstAmount),

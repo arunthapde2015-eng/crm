@@ -102,3 +102,114 @@ describe('MerchantsPanel', () => {
     expect(screen.queryByRole('group', { name: 'Bulk actions' })).not.toBeInTheDocument();
   });
 });
+
+describe('Merchant detail panel', () => {
+  async function openDetails(user, name) {
+    await user.click(screen.getByRole('button', { name }));
+    return screen.getByRole('dialog', { name });
+  }
+
+  it('opens from the merchant name with the lifecycle, actions and tabs', async () => {
+    const user = userEvent.setup();
+    render(<MerchantsPanel onNavigate={vi.fn()} />);
+
+    const panel = await openDetails(user, 'Mauli Nagri Sahakari Patsanstha Marya Majalgaon');
+
+    expect(panel).toHaveTextContent('MER-2026-0006, Chairman, 96898 14242');
+    const lifecycle = within(panel).getByRole('list', { name: 'Lifecycle' });
+    expect(within(lifecycle).getByText(/^Proforma/)).toHaveTextContent('Proforma, done');
+    expect(within(lifecycle).getByText(/^Invoice/)).toHaveTextContent('Invoice, not yet');
+    expect(within(panel).getByRole('tab', { name: 'Overview' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+    expect(within(panel).getByRole('tab', { name: 'Outlets (0)' })).toBeInTheDocument();
+  });
+
+  it('closes with the close button and returns focus to the name', async () => {
+    const user = userEvent.setup();
+    render(<MerchantsPanel onNavigate={vi.fn()} />);
+
+    const panel = await openDetails(user, 'Konkan Fresh Mart');
+    await user.click(within(panel).getByRole('button', { name: 'Close details' }));
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Konkan Fresh Mart' })).toHaveFocus();
+  });
+
+  it('starts a quotation on the Quotation page', async () => {
+    const user = userEvent.setup();
+    const onNavigate = vi.fn();
+    render(<MerchantsPanel onNavigate={onNavigate} />);
+
+    const panel = await openDetails(user, 'Konkan Fresh Mart');
+    await user.click(within(panel).getByRole('button', { name: 'New quotation' }));
+
+    expect(onNavigate).toHaveBeenCalledWith('quotations');
+  });
+
+  it('adds an outlet and updates the linked records in the list', async () => {
+    const user = userEvent.setup();
+    render(<MerchantsPanel onNavigate={vi.fn()} />);
+
+    const panel = await openDetails(user, 'Mauli Nagri Sahakari Patsanstha Marya Majalgaon');
+    await user.click(within(panel).getByRole('button', { name: 'Add outlet' }));
+    await user.type(within(panel).getByLabelText('Outlet name'), 'Majalgaon Main Branch');
+    await user.click(within(panel).getByRole('button', { name: 'Save outlet' }));
+
+    expect(within(panel).getByRole('tab', { name: 'Outlets (1)' })).toBeInTheDocument();
+    expect(within(panel).getByText('Majalgaon Main Branch')).toBeInTheDocument();
+    await user.keyboard('{Escape}');
+    expect(getMerchantRow('Mauli Nagri Sahakari Patsanstha Marya Majalgaon')).toHaveTextContent(
+      '1 outlet, 1 quotation, 1 proforma',
+    );
+  });
+
+  it('adds a remark to the timeline', async () => {
+    const user = userEvent.setup();
+    render(<MerchantsPanel onNavigate={vi.fn()} />);
+
+    const panel = await openDetails(user, 'Konkan Fresh Mart');
+    await user.click(within(panel).getByRole('button', { name: 'Add remark' }));
+    await user.type(within(panel).getByLabelText('Remark'), 'Wants a second POS at Panaji');
+    await user.click(within(panel).getByRole('button', { name: 'Save remark' }));
+
+    const timeline = within(panel).getByRole('list', { name: 'Timeline' });
+    expect(within(timeline).getAllByRole('listitem')[0]).toHaveTextContent(
+      'Wants a second POS at Panaji',
+    );
+  });
+
+  it('blocks deleting a merchant with invoices', async () => {
+    const user = userEvent.setup();
+    render(<MerchantsPanel onNavigate={vi.fn()} />);
+
+    const panel = await openDetails(user, 'Konkan Fresh Mart');
+
+    expect(within(panel).getByRole('button', { name: 'Delete' })).toBeDisabled();
+    expect(panel).toHaveTextContent('can only be deactivated');
+  });
+
+  it('deletes a merchant after confirmation', async () => {
+    const user = userEvent.setup();
+    render(<MerchantsPanel onNavigate={vi.fn()} />);
+
+    const panel = await openDetails(user, 'Mauli Nagri Sahakari Patsanstha Marya Majalgaon');
+    await user.click(within(panel).getByRole('button', { name: 'Delete' }));
+    await user.click(within(panel).getByRole('button', { name: 'Yes, delete' }));
+
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.getByText(/^5 merchants, 5 active\./)).toBeInTheDocument();
+  });
+
+  it('disables new quotations for inactive merchants', async () => {
+    const user = userEvent.setup();
+    render(<MerchantsPanel onNavigate={vi.fn()} />);
+
+    const panel = await openDetails(user, 'Konkan Fresh Mart');
+    await user.click(within(panel).getByRole('button', { name: 'Deactivate' }));
+
+    expect(within(panel).getByRole('button', { name: 'New quotation' })).toBeDisabled();
+    expect(within(panel).getByRole('button', { name: 'Activate' })).toBeInTheDocument();
+  });
+});

@@ -1,0 +1,239 @@
+.body {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* ---- Filters ---- */
+
+.filters {
+  display: grid;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.dateRange {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+}
+
+.control {
+  width: 100%;
+  min-width: 0;
+  height: 2.75rem;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-input);
+  font: inherit;
+  color: var(--color-text);
+  color-scheme: dark;
+}
+
+.control::placeholder {
+  color: var(--color-text-subtle);
+}
+
+/* ---- Tables ---- */
+
+.table {
+  min-width: 60rem;
+}
+
+.table :where(td, th) {
+  vertical-align: top;
+}
+
+.numeric {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.owed {
+  font-weight: 700;
+  color: var(--color-warning);
+}
+
+.secondary {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-subtle);
+}
+
+.person {
+  display: grid;
+  gap: var(--space-1);
+  justify-items: start;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--color-danger);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--color-on-danger);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+.textButton,
+.outlineButton {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: none;
+  font: inherit;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.outlineButton {
+  border-color: var(--color-border);
+  background: var(--color-bg);
+}
+
+.textButton:hover,
+.outlineButton:hover {
+  color: var(--color-accent-text);
+}
+
+.totalRow :where(th, td) {
+  border-top: 1px solid var(--color-border);
+  font-weight: 700;
+  background: var(--color-surface);
+}
+
+.empty {
+  padding: var(--space-8) var(--space-4);
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+/* ---- Forms (payout, rates) ---- */
+
+.card {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-raised);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.formGrid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+.note {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-subtle);
+}
+
+.errors {
+  margin: 0;
+  color: var(--color-danger-text);
+}
+
+.status {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-success-text);
+}
+
+.status:empty {
+  display: none;
+}
+
+.slabTable {
+  width: 100%;
+  max-width: 36rem;
+  border-collapse: collapse;
+}
+
+.slabTable :where(th, td) {
+  padding: var(--space-2) var(--space-2) var(--space-2) 0;
+  text-align: left;
+}
+
+.slabTable thead :where(th) {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.slabTable tbody :where(th) {
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.inlineInput {
+  width: 9rem;
+  height: 2.25rem;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-input);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  text-align: right;
+  color: var(--color-text);
+}
+
+@media (min-width: 48rem) {
+  .filters {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  }
+
+  .formGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 80rem) {
+  .filters {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) auto minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+/* "Pay all pending" stands out as the main action in its row. */
+.actions .primaryButton {
+  border-color: transparent;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.actions .primaryButton:hover {
+  background: var(--color-primary-hover);
+  color: var(--color-on-primary);
+}

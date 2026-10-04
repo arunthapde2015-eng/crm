@@ -41,10 +41,6 @@ export const DEFAULT_RANGE_DAYS = 180;
 // Indian financial year starts on 1 April (month index 3).
 export const FINANCIAL_YEAR_START_MONTH = 3;
 
-// The company is registered in Maharashtra: sales inside the state carry CGST + SGST,
-// sales to other states carry IGST.
-export const COMPANY_STATE = 'Maharashtra';
-
 export const AMC_EXPIRY_WARNING_DAYS = 30;
 
 export const QUOTATION_STATUS_LABELS = {
